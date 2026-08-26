@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ai-search-mcp 官方网站 Sitemap
+  默认站点地址：https://zhulingyu666.github.io/searchMCP/
+  若部署到自定义域名或不同仓库，请全局替换 <loc> 中的 URL 前缀。
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- 主页 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 官方文档：概览 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/index.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 官方文档：快速开始 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/quickstart.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 官方文档：使用指南 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/guide.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 官方文档：API 参考 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/api.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 官方文档：配置指南 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/config.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 官方文档：常见问题 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/faq.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

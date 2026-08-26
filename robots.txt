@@ -1,0 +1,8 @@
+# ai-search-mcp 官方网站
+# 允许所有爬虫抓取全站内容
+
+User-agent: *
+Allow: /
+
+# 站点地图（若部署到自定义域名请同步修改）
+Sitemap: https://zhulingyu666.github.io/searchMCP/sitemap.xml
