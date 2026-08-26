@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ai-search-mcp — Agent 友好的上网搜索 MCP 服务器</title>
+  <meta name="description" content="专为 Agent 打造的上网搜索 MCP 服务器：零配置免费引擎、区域感知自动选引擎、时间过滤、缓存、限频兜底，以及一次调用完成整轮调研的 research 组合工具。">
+  <meta name="keywords" content="MCP, AI Search, web search, LLM, Agent, DuckDuckGo, Bing, research, model-context-protocol">
+  <meta property="og:title" content="ai-search-mcp — Agent 友好的上网搜索 MCP 服务器">
+  <meta property="og:description" content="零配置免费搜索引擎、区域感知自动选引擎、freshness 时间过滤、内置缓存、research 组合工具。纯 JS，零构建，137 个单元测试。">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./css/style.css">
+  <script>
+    /* 同步标记：CSS 依此决定是否启用 reveal 动画，避免 FOUC */
+    (function () {
+      try { document.documentElement.classList.add("js"); } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ======= 顶部导航 ======= -->
+  <header class="site-header" id="site-header">
+    <nav class="nav container" aria-label="主导航">
+      <a href="./index.html" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="url(#lg1)"/>
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/>
+          </linearGradient></defs>
+          <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text">ai-search-<em>mcp</em></span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="./index.html" class="nav-link is-active" data-nav="home">主页</a></li>
+        <li><a href="./index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
+        <li><a href="./index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
+        <li><a href="./index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
+        <li><a href="./docs/index.html" class="nav-link" data-nav="docs">文档</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+
+      <!-- 滚动高亮指示器（下划线横线，随视口位置平滑滑动） -->
+      <span class="nav-indicator" id="nav-indicator" aria-hidden="true"></span>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ======= Hero ======= -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+      </div>
+      <div class="container hero-inner">
+        <div class="hero-badges">
+          <span class="badge badge-blue">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22v-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            v0.4.1
+          </span>
+          <span class="badge badge-green">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.5-6.3-4.6-6.3 4.6L8 14l-6-4.6h7.6z" stroke-linejoin="round"/></svg>
+            MIT License
+          </span>
+          <span class="badge badge-cyan">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round"/></svg>
+            Node ≥ 18
+          </span>
+          <span class="badge badge-purple">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v6H4zM4 14h16v6H4z" stroke-linejoin="round"/></svg>
+            Zero-Config
+          </span>
+        </div>
+
+        <h1 class="hero-title">让 Agent 拥有<br><span class="grad-text">会搜索、会调研</span> 的能力</h1>
+        <p class="hero-sub">
+          <strong>ai-search-mcp</strong> 是一个专为 Agent 打造的上网搜索 MCP 服务器 ——
+          开箱即用的免费搜索引擎、区域感知的自动选引擎与故障转移、freshness 时间过滤、内置缓存，
+          以及<em>一次调用完成整轮调研</em>的 <code>research</code> 组合工具。
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" data-copy="npx -y ai-search-mcp">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17V5a2 2 0 0 1 2-2h12M8 21h10a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            npx -y ai-search-mcp
+          </button>
+          <a class="btn btn-outline btn-lg" href="./docs/quickstart.html">
+            5 分钟接入
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- 终端模拟 -->
+        <div class="terminal" aria-label="运行示例">
+          <div class="terminal-bar">
+            <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+            <span class="terminal-title">ai-search-mcp — demo</span>
+          </div>
+          <div class="terminal-body">
+<pre><code><span class="ln">1</span> <span class="tk-cmd">$ npx -y ai-search-mcp</span>
+<span class="ln">2</span> <span class="tk-dim">[ai-search-mcp] ready</span> <span class="tk-dim">(version 0.4.1, engine=auto, region=cn-zh)</span>
+<span class="ln">3</span> <span class="tk-cmd">&gt; search("2026年 大模型 最新进展", maxResults=5)</span>
+<span class="ln">4</span> <span class="tk-dim">[ai-search-mcp]</span> <span class="tk-blue">rewrite</span> q="2026年 大模型 最新进展" <span class="tk-arrow">-&gt;</span> q="大模型 最新进展" <span class="tk-yellow">+freshness=year</span>
+<span class="ln">5</span> <span class="tk-dim">[ai-search-mcp]</span> <span class="tk-blue">search</span> engine=<span class="tk-green">bing</span> cached=<span class="tk-yellow">false</span> took=<span class="tk-cyan">972ms</span> total=<span class="tk-cyan">5</span> deduped=<span class="tk-cyan">1</span>
+<span class="ln">6</span> <span class="tk-dim">[ai-search-mcp]</span> <span class="tk-green">ok</span> 5 structured results returned
+<span class="ln">7</span>
+<span class="ln">8</span> <span class="tk-punct">{</span>
+<span class="ln">9</span>   <span class="tk-key">"query"</span><span class="tk-punct">:</span> <span class="tk-str">"大模型 最新进展"</span><span class="tk-punct">,</span>
+<span class="ln">10</span>   <span class="tk-key">"engine"</span><span class="tk-punct">:</span> <span class="tk-str">"bing"</span><span class="tk-punct">,</span>
+<span class="ln">11</span>   <span class="tk-key">"freshnessApplied"</span><span class="tk-punct">:</span> <span class="tk-bool">true</span><span class="tk-punct">,</span>
+<span class="ln">12</span>   <span class="tk-key">"results"</span><span class="tk-punct">:</span> <span class="tk-punct">[</span>
+<span class="ln">13</span>     <span class="tk-punct">{</span> <span class="tk-key">"id"</span><span class="tk-punct">:</span> <span class="tk-str">"a1b2c3d4"</span><span class="tk-punct">,</span> <span class="tk-key">"title"</span><span class="tk-punct">:</span> <span class="tk-str">"..."</span><span class="tk-punct">,</span>
+<span class="ln">14</span>       <span class="tk-key">"url"</span><span class="tk-punct">:</span> <span class="tk-str">"https://..."</span><span class="tk-punct">,</span> <span class="tk-key">"domain"</span><span class="tk-punct">:</span> <span class="tk-str">"..."</span> <span class="tk-punct">}</span> <span class="tk-punct">]</span>
+<span class="ln">15</span> <span class="tk-punct">}</span><span class="cursor"></span></code></pre>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">9</span><span class="stat-label">可插拔引擎</span></div>
+          <div class="stat"><span class="stat-num">4</span><span class="stat-label">MCP 工具</span></div>
+          <div class="stat"><span class="stat-num">137</span><span class="stat-label">单元测试</span></div>
+          <div class="stat"><span class="stat-num">0</span><span class="stat-label">API Key 依赖</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= 特性 ======= -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag">Features</span>
+          <h2>为什么选 <span class="grad-text">ai-search-mcp</span></h2>
+          <p>现有搜索方案都有硬伤：官方 fetch MCP 只会抓 URL 不会搜索；Tavily / Brave 质量高但全要付费 Key；社区 DuckDuckGo MCP 免费却脆弱、输出非结构化。这个项目填上了空档。</p>
+        </div>
+
+        <!-- 核心卖点：3 张旗舰卡 -->
+        <div class="feature-grid-hero stagger">
+          <article class="feature-card-lg">
+            <div class="feature-card-top">
+              <span class="feature-chip">零 API Key</span>
+              <div class="feature-icon ic-blue">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4.5 13.5H11L9.5 22 19 10h-6.5z" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <h3>零配置开箱即用</h3>
+            <p><code>npx ai-search-mcp</code> 直接跑，不需要任何 API Key。默认区域感知，中国用户加一行 <code>SEARCH_REGION=cn-zh</code> 即可直连。</p>
+          </article>
+
+          <article class="feature-card-lg">
+            <div class="feature-card-top">
+              <span class="feature-chip">智能切换</span>
+              <div class="feature-icon ic-cyan">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
+              </div>
+            </div>
+            <h3>区域感知自动选引擎</h3>
+            <p>中国区域走 <code>bing → so360 → baidu → sogou</code>，海外走 <code>google → bing → duckduckgo → yandex</code>；429 / 超时自动故障转移。</p>
+          </article>
+
+          <article class="feature-card-lg">
+            <div class="feature-card-top">
+              <span class="feature-chip">一次调用</span>
+              <div class="feature-icon ic-purple">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h8M8 12h5" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <h3>research 组合工具</h3>
+            <p>一次调用 = 搜索 + 并行抓取 Top 页 → 证据简报。消灭 Agent 5~10 次工具往返，多页面并行、单页失败不影响整体。</p>
+          </article>
+        </div>
+
+        <!-- 更多能力：紧凑条目 -->
+        <div class="feature-subhead">更多能力</div>
+        <div class="feature-grid-list stagger">
+          <article class="feature-item">
+            <div class="feature-item-icon ic-green">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round"/></svg>
+            </div>
+            <div class="feature-item-text">
+              <h4>Agent 友好结构化输出</h4>
+              <p>返回 <code>{ id, title, url, snippet, domain }</code> 结构化 JSON，每条带稳定 <code>id</code>，可直接深读，无需手拼 URL。</p>
+            </div>
+          </article>
+
+          <article class="feature-item">
+            <div class="feature-item-icon ic-orange">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="feature-item-text">
+              <h4>时间过滤</h4>
+              <p><code>freshness</code> 或精确 <code>timeRange</code> 按引擎自动映射；中文「20xx年」查询自动改写 + 年份补偿。</p>
+            </div>
+          </article>
+
+          <article class="feature-item">
+            <div class="feature-item-icon ic-pink">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v6H4zM4 14h16v6H4z" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="feature-item-text">
+              <h4>内置 TTL 缓存</h4>
+              <p>默认 10 分钟缓存减少重复请求，更快更省；可选 <code>SEARCH_CACHE_FILE</code> 持久化，重启不丢缓存。</p>
+            </div>
+          </article>
+
+          <article class="feature-item">
+            <div class="feature-item-icon ic-teal">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linejoin="round"/><path d="M8 12l3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="feature-item-text">
+              <h4>工程兜底 & 健康追踪</h4>
+              <p>超时、指数退避、统一错误码；引擎健康追踪，冷却中的引擎自动跳过，失败带归因诊断。</p>
+            </div>
+          </article>
+
+          <article class="feature-item">
+            <div class="feature-item-icon ic-indigo">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M4 12h10M4 19h7" stroke-linecap="round"/><circle cx="18" cy="19" r="3" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="feature-item-text">
+              <h4>礼貌爬虫，合规优先</h4>
+              <p>按引擎限频 + 随机请求间隔，主动避免触发风控；不做任何反爬对抗，遵循 robots.txt，合规红线。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= 工作原理 ======= -->
+    <section class="section section-alt" id="how">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag">How it works</span>
+          <h2>三步完成一次智能搜索</h2>
+          <p>从一句提问到拿到结构化结果，中间的引擎选择、故障转移、缓存与改写全部自动完成 —— 无需 API Key，无需配置。</p>
+        </div>
+
+        <!-- 三步主流程：引入 → 处理 → 输出 -->
+        <div class="how-steps stagger">
+          <article class="how-step">
+            <span class="how-step-num">01</span>
+            <div class="how-step-icon ic-blue">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/><path d="M8 11h6M11 8v6" stroke-linecap="round"/></svg>
+            </div>
+            <h3>引入 · 一句提问</h3>
+            <p>Agent 调用 <code>search</code> 工具，只需传入搜索关键词；时间过滤、域名限定等按需添加。</p>
+            <ul class="how-step-points">
+              <li>零配置，无需任何 API Key</li>
+              <li>可选 <code>freshness</code> 时间过滤</li>
+              <li>支持域名限定与多区域</li>
+            </ul>
+          </article>
+
+          <div class="how-step-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <article class="how-step">
+            <span class="how-step-num">02</span>
+            <div class="how-step-icon ic-cyan">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" stroke-linecap="round"/></svg>
+            </div>
+            <h3>处理 · 智能引擎链</h3>
+            <p>系统自动挑选最合适的引擎，遇限流或超时<strong>即时切换</strong>；查询改写、缓存、限频在后台静默完成。</p>
+            <ul class="how-step-points">
+              <li>区域感知选引擎（国内 / 海外）</li>
+              <li>429 / 超时自动故障转移</li>
+              <li>TTL 缓存 + 礼貌限频</li>
+            </ul>
+          </article>
+
+          <div class="how-step-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <article class="how-step">
+            <span class="how-step-num">03</span>
+            <div class="how-step-icon ic-purple">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M12 3v18" stroke-linecap="round"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h2M13 16h2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>输出 · 结构化结果</h3>
+            <p>返回标准 JSON（<code>id</code>、<code>title</code>、<code>url</code>、<code>snippet</code>、<code>domain</code>），Agent 可直接使用，无需解析 HTML。</p>
+            <ul class="how-step-points">
+              <li>稳定 <code>id</code>，可一键深读</li>
+              <li>自动去重与摘要</li>
+              <li>无缝衔接 <code>research</code> 调研</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- 细节保障：三个关键机制 -->
+        <div class="how-guarantees stagger">
+          <div class="how-guarantee">
+            <span class="num-badge">01</span>
+            <strong>中文查询自动改写</strong>
+            <span class="how-guarantee-desc">「20xx年」→ 自动加 freshness=year</span>
+          </div>
+          <div class="how-guarantee">
+            <span class="num-badge">02</span>
+            <strong>引擎优雅降级</strong>
+            <span class="how-guarantee-desc">限流冷却自动跳过，不浪费请求</span>
+          </div>
+          <div class="how-guarantee">
+            <span class="num-badge">03</span>
+            <strong>失败归因诊断</strong>
+            <span class="how-guarantee-desc">带 engineStatus 快照与可行动建议</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= 引擎对比 ======= -->
+    <section class="section" id="engines">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-tag">Engines</span>
+          <h2>九大搜索引擎，可插拔</h2>
+          <p>7 个免费引擎 + 2 个付费官方 API。免费引擎开箱即用，付费引擎质量更高 —— 支持逗号分隔引擎链（如 <code>brave,tavily</code>），任一失败自动转移。</p>
+        </div>
+
+        <div class="table-tools">
+          <div class="seg" id="engine-filter" role="group" aria-label="引擎类型筛选">
+            <button class="seg-btn is-active" data-filter="all">全部 9</button>
+            <button class="seg-btn" data-filter="free">免费引擎 7</button>
+            <button class="seg-btn" data-filter="paid">付费 API 2</button>
+            <button class="seg-btn" data-filter="cn">国内直连 4</button>
+          </div>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+            <input type="text" id="engine-search" placeholder="搜索引擎名或说明…" aria-label="搜索引擎">
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table table-engines" id="engine-table">
+            <thead><tr><th>引擎</th><th>免费</th><th>API Key</th><th>时间过滤</th><th>适用区域</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr data-engine="google" data-tags="free overseas 海外">
+                <td><span class="engine-name">google</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="muted">✕</span></td><td>海外专用</td>
+                <td>索引质量全球最佳，反爬严，需海外 IP + Cookie 会话</td>
+              </tr>
+              <tr data-engine="bing" data-tags="free cn global 国内 全球">
+                <td><span class="engine-name">bing</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="tag tag-yes">✓ qft</span></td><td>全球</td>
+                <td>中国区域默认，中英文覆盖好，国内免代理直连</td>
+              </tr>
+              <tr data-engine="duckduckgo" data-tags="free global overseas 全球 海外">
+                <td><span class="engine-name">duckduckgo</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="tag tag-yes">✓ df</span></td><td>全球备选</td>
+                <td>中国大陆直连可能超时（需代理）</td>
+              </tr>
+              <tr data-engine="yandex" data-tags="free overseas 海外">
+                <td><span class="engine-name">yandex</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="muted">✕</span></td><td>海外专用</td>
+                <td>俄语 / CIS 内容强，部分网络可达性好，反爬中等</td>
+              </tr>
+              <tr data-engine="so360" data-tags="free cn 国内 360">
+                <td><span class="engine-name">so360 <span class="alias">/ 360</span></span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="muted">✕</span></td><td>国内直连</td>
+                <td>数据中心 / 国内 IP 均可直连，反爬相对宽松，中文原生引擎</td>
+              </tr>
+              <tr data-engine="baidu" data-tags="free cn 国内">
+                <td><span class="engine-name">baidu</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="muted">✕</span></td><td>仅限国内</td>
+                <td>中文索引强，但反爬严（数据中心 IP 带 Cookie 仍触发图形验证码）</td>
+              </tr>
+              <tr data-engine="sogou" data-tags="free cn 国内">
+                <td><span class="engine-name">sogou</span></td>
+                <td><span class="tag tag-ok">免费</span></td><td><span class="muted">—</span></td>
+                <td><span class="muted">✕</span></td><td>仅限国内</td>
+                <td>微信内容覆盖好，缺 JS 生成的 SNUID 会话会被 302 拦回</td>
+              </tr>
+              <tr data-engine="brave" data-tags="paid api">
+                <td><span class="engine-name">brave</span></td>
+                <td><span class="tag tag-no">付费</span></td><td><span class="tag tag-key">需要</span></td>
+                <td><span class="tag tag-yes">✓ freshness</span></td><td>官方 API</td>
+                <td>质量高，有免费额度</td>
+              </tr>
+              <tr data-engine="tavily" data-tags="paid api">
+                <td><span class="engine-name">tavily</span></td>
+                <td><span class="tag tag-no">付费</span></td><td><span class="tag tag-key">需要</span></td>
+                <td><span class="tag tag-yes">✓ time_range</span></td><td>官方 API</td>
+                <td>专为 LLM / RAG 检索设计</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note-box">
+          <strong>中国大陆免代理：</strong>默认 <code>SEARCH_ENGINE=auto</code> + <code>SEARCH_REGION=cn-zh</code> → 走 <code>bing → so360 → baidu → sogou</code>，全部直连可用，无需任何配置。其中 <strong>360 搜索（so360）</strong>对数据中心 / 机房 IP 的容忍度最高，是最可靠的国内原生中文引擎。
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= CTA ======= -->
+    <section class="cta">
+      <div class="container cta-inner">
+        <h2>给 Agent 装上会搜索的大脑</h2>
+        <p>零配置、免费、开箱即用 —— 现在就开始。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="./docs/quickstart.html">
+            5 分钟接入
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-outline btn-lg" href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5v-5l-10 5-10-5v5z"/></svg>
+            npm 包
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======= 页脚 ======= -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="brand"><svg class="brand-logo" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="7" fill="url(#lg2)"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text">ai-search-<em>mcp</em></span></span>
+        <p>专为 Agent 打造的上网搜索 MCP 服务器。零配置免费引擎、区域感知选引擎、时间过滤、缓存与 research 组合工具。</p>
+        <div class="footer-links">
+          <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm</a>
+          <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>
+          <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>展示</h4>
+        <a href="./index.html">主页</a><a href="./index.html#features">特性</a><a href="./index.html#how">工作原理</a><a href="./index.html#engines">引擎对比</a>
+      </div>
+      <div class="footer-col">
+        <h4>文档</h4>
+        <a href="./docs/index.html">官方文档</a><a href="./docs/quickstart.html">快速开始</a><a href="./docs/config.html">配置指南</a><a href="./docs/faq.html">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>技术</h4>
+        <span class="foot-item">Node.js ≥ 18 · CommonJS · 零构建</span>
+        <span class="foot-item">137 个单元测试（Node test runner）</span>
+        <span class="foot-item">Docker · stdio MCP · 可扩展</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 ai-search-mcp · MIT License</span>
+      <span>本项目为独立开源项目，与 DuckDuckGo、Bing/Microsoft、Brave、Tavily、百度、搜狗均无关联、背书或赞助关系。</span>
+    </div>
+  </footer>
+
+  <!-- 回到顶部 -->
+  <button class="back-top" id="back-top" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <!-- 复制提示 toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

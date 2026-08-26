@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配置指南 — ai-search-mcp 官方文档</title>
+  <meta name="description" content="ai-search-mcp 配置指南：环境变量按用途分组详解、常用配置场景（中国大陆 / 海外 / 降频 / 付费引擎 / 代理）、解析规则覆盖与合规说明。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    (function () {
+      try { document.documentElement.classList.add("js"); } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="docs-page" data-page="config">
+
+  <header class="site-header" id="site-header">
+    <nav class="nav container" aria-label="主导航">
+      <a href="../index.html" class="brand">
+        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="7" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="brand-text">ai-search-<em>mcp</em></span>
+      </a>
+      <button class="nav-toggle docs-nav-toggle" id="docs-nav-toggle" aria-label="打开文档目录" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html" class="nav-link" data-nav="home">主页</a></li>
+        <li><a href="../index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
+        <li><a href="../index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
+        <li><a href="../index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
+        <li><a href="./index.html" class="nav-link is-active" data-nav="docs">文档</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="文档目录">
+      <nav class="docs-nav" id="docs-nav" aria-label="章节导航"></nav>
+      <div class="docs-sidebar-footer">
+        <a href="../index.html">← 返回主页</a><span>v0.4.1</span>
+      </div>
+    </aside>
+    <div class="docs-mask" id="docs-mask" hidden></div>
+
+    <main class="docs-content">
+      <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
+      <article class="docs-articles">
+
+        <nav class="page-toc" aria-label="本页目录">
+          <span class="page-toc-label">本页目录</span>
+          <a class="page-toc-link" href="#variables">环境变量一览</a>
+          <a class="page-toc-link" href="#scenarios">常用配置场景</a>
+          <a class="page-toc-link" href="#network">网络注意事项</a>
+          <a class="page-toc-link" href="#selectors">解析规则覆盖</a>
+          <a class="page-toc-link" href="#compliance">合规说明</a>
+        </nav>
+
+        <section class="docs-section" id="variables">
+          <h2>环境变量一览</h2>
+          <p class="lead">默认零配置即可用；以下变量按需调整。完整数据表见 <a href="./api.html">API 参考</a>，这里按用途分组说明。</p>
+
+          <h3>引擎与区域</h3>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>SEARCH_ENGINE</code></td><td><code>auto</code></td><td>单个引擎或逗号分隔引擎链（如 <code>brave,tavily</code>）；<code>auto</code> = 按区域自动选择</td></tr>
+              <tr><td><code>SEARCH_REGION</code></td><td class="muted">—</td><td>默认区域（如 <code>cn-zh</code>），参与引擎自动选择，同时是 <code>search</code> 的默认 region</td></tr>
+              <tr><td><code>SEARCH_LANG_ROUTING</code></td><td><code>0</code></td><td><code>1</code> = 中文查询优先百度 / 搜狗（需对应网络可达）</td></tr>
+              <tr><td><code>SEARCH_MAX_RESULTS</code></td><td><code>10</code></td><td>默认结果条数（1–20）</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>缓存</h3>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>SEARCH_CACHE_TTL</code></td><td><code>600</code></td><td>缓存 TTL（秒，<code>0</code> 关闭）</td></tr>
+              <tr><td><code>SEARCH_CACHE_FILE</code></td><td class="muted">—</td><td>缓存持久化文件路径（如 <code>./.cache/search.json</code>），重启不丢缓存（仅限单进程）</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>限频与超时</h3>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>SEARCH_RATE_PER_MINUTE</code></td><td><code>8</code></td><td>每个引擎每分钟最大请求数（<code>0</code> 关闭限频）</td></tr>
+              <tr><td><code>SEARCH_MIN_DELAY_MS</code> / <code>SEARCH_MAX_DELAY_MS</code></td><td><code>500</code> / <code>2000</code></td><td>请求间随机延迟范围（毫秒，<code>0</code> 关闭）</td></tr>
+              <tr><td><code>SEARCH_TIMEOUT_MS</code></td><td><code>10000</code></td><td>单次请求超时（毫秒）</td></tr>
+              <tr><td><code>FETCH_MAX_LENGTH</code></td><td><code>8000</code></td><td><code>fetch_page</code> / <code>research</code> 单页 Markdown 长度上限（字符）</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>日志与隐私</h3>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>SEARCH_LOG_LEVEL</code></td><td><code>info</code></td><td><code>debug|info|warn|error|off</code>（结构化日志输出到 stderr，不污染 MCP 协议）</td></tr>
+              <tr><td><code>SEARCH_LOG_QUERY</code></td><td><code>1</code></td><td><code>0</code> = 日志中打码查询词（隐私）</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>付费引擎与代理</h3>
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td><code>BRAVE_API_KEY</code></td><td class="muted">—</td><td>使用 <code>brave</code> 引擎必需</td></tr>
+              <tr><td><code>TAVILY_API_KEY</code></td><td class="muted">—</td><td>使用 <code>tavily</code> 引擎必需</td></tr>
+              <tr><td><code>SEARCH_HTTP_PROXY</code></td><td class="muted">—</td><td>代理地址（回退到 <code>HTTPS_PROXY</code> / <code>HTTP_PROXY</code>）</td></tr>
+              <tr><td><code>SEARCH_USER_AGENT</code></td><td class="muted">内置</td><td>自定义 User-Agent</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section class="docs-section" id="scenarios">
+          <h2>常用配置场景</h2>
+
+          <h3>中国大陆免代理（默认推荐）</h3>
+          <div class="code-block" data-label=".mcp.json — cn-zh">
+<pre><code class="lang-json">{
+  "mcpServers": {
+    "ai-search-mcp": {
+      "command": "npx",
+      "args": ["-y", "ai-search-mcp"],
+      "env": { "SEARCH_REGION": "cn-zh" }
+    }
+  }
+}</code></pre>
+          </div>
+          <p>引擎链自动为 <code>bing → so360 → baidu → sogou</code>，全部国内直连，无需任何代理。</p>
+
+          <h3>海外部署</h3>
+          <p>不设 <code>SEARCH_REGION</code>（或非 <code>cn</code> 前缀）→ 默认链 <code>google → bing → duckduckgo → yandex</code>，Google 质量最优、Bing 最稳，任一失败自动转移。</p>
+
+          <h3>付费引擎链（质量优先）</h3>
+          <div class="code-block" data-label=".mcp.json — brave + tavily">
+<pre><code class="lang-json">{
+  "mcpServers": {
+    "ai-search-mcp": {
+      "command": "npx",
+      "args": ["-y", "ai-search-mcp"],
+      "env": {
+        "SEARCH_ENGINE": "brave,tavily,bing",
+        "BRAVE_API_KEY": "在此填你的Key",
+        "TAVILY_API_KEY": "在此填你的Key"
+      }
+    }
+  }
+}</code></pre>
+          </div>
+
+          <h3>降低风控风险（被限频时）</h3>
+          <div class="code-block" data-label="Terminal — 降频运行">
+<pre><code class="lang-bash">SEARCH_RATE_PER_MINUTE=4 SEARCH_MIN_DELAY_MS=1000 SEARCH_MAX_DELAY_MS=3000 ai-search-mcp</code></pre>
+          </div>
+        </section>
+
+        <section class="docs-section" id="network">
+          <h2>网络注意事项</h2>
+          <ul class="check-list">
+            <li><strong>免费引擎会限流</strong>：429 以结构化错误返回（<code>RATE_LIMITED</code>，带 <code>suggestedEngine</code> / <code>retryAfter</code>）；引擎链自动故障转移</li>
+            <li><strong>部分站点拒绝脚本抓取</strong>（HTTP 403，如百度百科）：<code>fetch_page</code> 返回结构化错误，<code>research</code> 标记该页失败并继续</li>
+            <li><strong>需要访问 DDG / Brave / Tavily 但处于墙内</strong>：<code>SEARCH_ENGINE=duckduckgo SEARCH_HTTP_PROXY=http://127.0.0.1:7890 ai-search-mcp</code></li>
+            <li><strong>百度 / 搜狗对网络环境敏感</strong>：数据中心 / 海外 IP 下百度强制图形验证码（wappass）、搜狗被 302 拦回（antispider），会自动故障转移到 Bing / 360；大陆住宅 IP 可设 <code>SEARCH_LANG_ROUTING=1</code> 优先中文原生引擎</li>
+          </ul>
+        </section>
+
+        <section class="docs-section" id="selectors">
+          <h2>解析规则覆盖（免发版修复）</h2>
+          <p>所有引擎的 SERP 解析规则外置在 <code>src/selectors/*.json</code>。某个搜索引擎改版导致解析失效时，<strong>不必等待新版 npm</strong>：</p>
+          <ol class="doc-ol">
+            <li><strong>内置规则</strong>（随包分发，默认）</li>
+            <li><strong>本地文件</strong> <code>SEARCH_SELECTOR_FILE=/path/selectors.json</code></li>
+            <li><strong>远程 URL</strong> <code>SEARCH_SELECTOR_OVERRIDE_URL=https://gist.../selectors.json</code>（启动时拉取，优先级最高）</li>
+          </ol>
+          <div class="code-block" data-label="selectors.json — 按引擎 key 合并">
+<pre><code class="lang-json">{
+  "bing": {
+    "challenge": ["captcha", "challenge"],
+    "fields": {
+      "title": {
+        "pattern": "&lt;h2[^&gt;]*&gt;\\s*&lt;a[^&gt;]+href=\"([^\"]+)\"[^&gt;]*&gt;([\\s\\S]*?)&lt;\\/a&gt;\\s*&lt;\\/h2&gt;",
+        "flags": "gi",
+        "urlGroup": 1,
+        "textGroup": 2
+      },
+      "snippet": {
+        "window": "after",
+        "size": 2000,
+        "pattern": "&lt;p[^&gt;]*&gt;([\\s\\S]*?)&lt;\\/p&gt;",
+        "flags": "i",
+        "group": 1
+      }
+    }
+  }
+}</code></pre>
+          </div>
+          <div class="callout callout-info"><strong>免发版工作流：</strong>用户报告「XX 引擎搜索坏了」→ 作者把修复后的规则更新到一个 Gist → 用户设 <code>SEARCH_SELECTOR_OVERRIDE_URL=&lt;gist&gt;</code> 重启即修复。覆盖加载失败（文件损坏 / 网络不通）<strong>永不阻塞启动</strong>，自动回退上一级规则并打 warn 日志。</div>
+        </section>
+
+        <section class="docs-section" id="compliance">
+          <h2>合规说明</h2>
+          <ul class="check-list">
+            <li>只返回搜索摘要与链接，<strong>不转载全文</strong>；遵循目标站点 robots.txt 与服务条款</li>
+            <li>内置礼貌爬虫限频（默认 8 次/分）+ 随机请求间隔，主动避免触发风控</li>
+            <li><strong>合规红线</strong>：不做验证码绕过、UA 伪造轮换、代理池轮换等反反爬对抗</li>
+            <li>被 403 / 验证码拦截时，请降频或切换引擎</li>
+          </ul>
+          <div class="next-links">
+            <a class="btn btn-outline" href="./faq.html">常见问题 →</a>
+          </div>
+        </section>
+
+      </article>
+      <footer class="docs-content-footer">
+        <span>© 2026 ai-search-mcp · MIT License</span>
+        <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm ↗</a>
+        <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG ↗</a>
+      </footer>
+    </main>
+  </div>
+
+  <button class="back-top" id="back-top" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+  <script src="../js/main.js"></script>
+  <script src="./nav.js"></script>
+</body>
+</html>
