@@ -1,173 +1,217 @@
 /* ==========================================================================
-   ai-search-mcp 官方文档 — 共享导航（所有 docs/*.html 页面复用）
-   - 根据 body[data-page] 从 DOCS_NAV 生成左侧多级侧边栏 + 高亮当前页
-   - 生成面包屑（主页 / 分组 / 当前页）
-   - 页面内目录 .page-toc 滚动高亮（scroll spy）
-   - 移动端侧边栏抽屉（汉堡 + 遮罩）
+   ai-search-mcp 文档站 — 共享导航模块
+   职责：渲染左侧多级侧边栏、面包屑、页内目录（自动为标题生成锚点）
+       与上一页/下一页导航。所有文档页共享同一份 DOCS_NAV 配置，
+   新增页面只需在 DOCS_NAV 中登记 + 复制一份页面骨架。
    ========================================================================== */
 (function () {
   "use strict";
 
-  /* 站点文档结构：分组 + 页面（file 为 docs/ 下的文件名，anchor 可定位页内章节） */
+  /* ---------- 文档结构（唯一数据源） ---------- */
   var DOCS_NAV = [
     {
       group: "开始",
-      items: [
-        { id: "index", file: "index.html", title: "概览" },
-        { id: "quickstart", file: "quickstart.html", title: "快速开始" }
+      pages: [
+        { id: "index", title: "概览", href: "./index.html", desc: "项目定位与核心能力" },
+        { id: "quickstart", title: "快速开始", href: "./quickstart.html", desc: "3 步接入你的 MCP 客户端" }
       ]
     },
     {
-      group: "指南",
-      items: [
-        { id: "guide", file: "guide.html", title: "使用指南" }
+      group: "使用",
+      pages: [
+        { id: "guide", title: "工具指南", href: "./guide.html", desc: "search / research / fetch_page / status" },
+        { id: "engines", title: "引擎详解", href: "./engines.html", desc: "9 个引擎的能力与选型" }
       ]
     },
     {
       group: "参考",
-      items: [
-        { id: "api", file: "api.html", title: "API 参考" },
-        { id: "config", file: "config.html", title: "配置指南" }
-      ]
-    },
-    {
-      group: "常见问题",
-      items: [
-        { id: "faq", file: "faq.html", title: "FAQ" }
+      pages: [
+        { id: "api", title: "API 参考", href: "./api.html", desc: "参数、返回值与错误码" },
+        { id: "config", title: "配置指南", href: "./config.html", desc: "19 个环境变量" },
+        { id: "faq", title: "常见问题", href: "./faq.html", desc: "接入与排错" }
       ]
     }
   ];
 
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
-  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
-  var PAGE_ID = document.body.getAttribute("data-page") || "";
-  var navEl = $("#docs-nav");
-  var crumbEl = $("#docs-breadcrumb");
-  var sidebar = $("#docs-sidebar");
-  var maskEl = $("#docs-mask");
-  var toggleBtn = $("#docs-nav-toggle");
-
-  function esc(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  /* ---------- 扁平化，便于取上/下一篇 ---------- */
+  function flatten() {
+    var out = [];
+    DOCS_NAV.forEach(function (g) {
+      g.pages.forEach(function (p) { out.push({ group: g.group, page: p }); });
+    });
+    return out;
   }
 
-  /* ---------- 1. 侧边栏（多级目录） ---------- */
-  function buildSidebar() {
-    if (!navEl) return;
+  /* ---------- 标题锚点 id ---------- */
+  function slugify(text, used) {
+    var base = String(text)
+      .trim()
+      .toLowerCase()
+      .replace(/[\s\u3000]+/g, "-")
+      .replace(/[!-/:-@[-`{-~。，、；：？！“”‘’（）《》【】…—]/g, "")
+      .replace(/-{2,}/g, "-")
+      .replace(/^-|-$/g, "");
+    if (!base) base = "section";
+    var id = base;
+    var n = 2;
+    while (used[id]) { id = base + "-" + n; n += 1; }
+    used[id] = true;
+    return id;
+  }
+
+  /* ---------- 渲染侧边栏 ---------- */
+  function renderSidebar(activeId) {
+    var host = $("#docs-sidebar");
+    if (!host) return;
+
+    // 移动端开关必须挂在侧边栏「外面」——否则折叠侧边栏时会把它一起隐藏，无法再展开。
+    if (host.parentNode && !document.getElementById("docs-menu-toggle")) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-outline btn-sm";
+      btn.id = "docs-menu-toggle";
+      btn.setAttribute("aria-expanded", "true");
+      btn.textContent = "收起目录";
+      host.parentNode.insertBefore(btn, host);
+    }
+
     var html = "";
-    DOCS_NAV.forEach(function (group) {
-      var groupOpen = group.items.some(function (item) { return item.id === PAGE_ID; });
-      html += '<div class="docs-group' + (groupOpen ? "" : " is-collapsed") + '">';
-      html += '<button type="button" class="docs-group-toggle" aria-expanded="' + (groupOpen ? "true" : "false") + '">' +
-              '<svg class="docs-group-caret" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-              "<span>" + esc(group.group) + "</span></button>";
-      html += '<div class="docs-group-items">';
-      group.items.forEach(function (item) {
-        var on = item.id === PAGE_ID;
-        html += '<a class="docs-link' + (on ? " is-active" : "") + '" href="' + item.file + '" data-page-target="' + item.id + '">' + esc(item.title) + "</a>";
+    DOCS_NAV.forEach(function (g) {
+      html += '<nav class="docs-group" aria-label="' + g.group + '">';
+      html += '<p class="docs-group-title">' + g.group + "</p>";
+      html += '<ul class="docs-nav-list">';
+      g.pages.forEach(function (p) {
+        var active = p.id === activeId;
+        html +=
+          "<li><a class=\"docs-nav-link" + (active ? " is-active" : "") + "\"" +
+          (active ? ' aria-current="page"' : "") +
+          ' href="' + p.href + '">' + p.title + "</a></li>";
       });
-      html += "</div></div>";
+      html += "</ul></nav>";
     });
-    navEl.innerHTML = html;
 
-    /* 分组折叠 */
-    $$(".docs-group-toggle", navEl).forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var group = btn.closest(".docs-group");
-        var isOpen = group.classList.toggle("is-collapsed");
-        btn.setAttribute("aria-expanded", isOpen ? "false" : "true");
-      });
+    host.innerHTML = html;
+  }
+
+  /* ---------- 渲染面包屑 ---------- */
+  function renderBreadcrumb(group, title) {
+    var host = $("#docs-breadcrumb");
+    if (!host) return;
+    host.innerHTML =
+      '<a href="../index.html">ai-search-mcp</a>' +
+      '<span class="sep" aria-hidden="true">/</span>' +
+      '<span>' + group + "</span>" +
+      '<span class="sep" aria-hidden="true">/</span>' +
+      '<span class="crumb-current">' + title + "</span>";
+  }
+
+  /* ---------- 渲染页内目录 + 为标题补锚点 ---------- */
+  function renderToc() {
+    var host = $("#docs-toc-list");
+    var prose = $(".prose");
+    if (!prose) return;
+
+    var used = {};
+    var headings = prose.querySelectorAll("h2, h3");
+    var html = "";
+
+    Array.prototype.forEach.call(headings, function (h) {
+      var text = h.textContent.replace(/#$/, "").trim();
+      if (!h.id) h.id = slugify(text, used);
+      else used[h.id] = true;
+
+      if (!h.querySelector(".anchor-link")) {
+        var a = document.createElement("a");
+        a.className = "anchor-link";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "锚点链接");
+        a.textContent = "#";
+        h.appendChild(a);
+      }
+
+      var lvl = h.tagName.toLowerCase() === "h2" ? 2 : 3;
+      html +=
+        '<li class="lvl-' + lvl + '"><a href="#' + h.id + '">' + text + "</a></li>";
     });
-  }
 
-  /* ---------- 2. 面包屑 ---------- */
-  function buildBreadcrumb() {
-    if (!crumbEl) return;
-    var current = null, groupName = "";
-    DOCS_NAV.forEach(function (group) {
-      group.items.forEach(function (item) {
-        if (item.id === PAGE_ID) { current = item; groupName = group.group; }
-      });
-    });
-    var html = '<a href="../index.html">主页</a><span>/</span>';
-    if (current) {
-      html += "<span>" + esc(groupName) + "</span><span>/</span><span class=\"muted\">" + esc(current.title) + "</span>";
-    } else {
-      html += "<span class=\"muted\">文档</span>";
-    }
-    crumbEl.innerHTML = html;
-  }
-
-  /* ---------- 3. 页面内目录（.page-toc）滚动高亮 ---------- */
-  var tocLinks = $$(".page-toc-link");
-  var tocSections = tocLinks.map(function (link) {
-    var id = link.getAttribute("href").slice(1);
-    return { id: id, el: document.getElementById(id) };
-  }).filter(function (s) { return s.el; });
-
-  function onTocScroll() {
-    if (!tocSections.length) return;
-    var probe = 96; /* header + breadcrumb 高度 */
-    var activeId = null;
-    for (var i = 0; i < tocSections.length; i++) {
-      var r = tocSections[i].el.getBoundingClientRect();
-      if (r.top <= probe && r.bottom > probe) { activeId = tocSections[i].id; break; }
-    }
-    if (!activeId) {
-      /* 兜底：取视口内最靠上的 */
-      var best = null, bestTop = Infinity;
-      tocSections.forEach(function (s) {
-        var r = s.el.getBoundingClientRect();
-        if (r.top < bestTop && r.bottom > 0) { bestTop = r.top; best = s.id; }
-      });
-      activeId = best;
-    }
-    tocLinks.forEach(function (link) {
-      link.classList.toggle("is-active", link.getAttribute("href").slice(1) === activeId);
-    });
-  }
-
-  /* ---------- 4. 移动端侧边栏抽屉 ---------- */
-  function openSidebar() {
-    if (!sidebar) return;
-    sidebar.classList.add("is-open");
-    if (maskEl) maskEl.hidden = false;
-    document.body.style.overflow = "hidden";
-    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
-  }
-  function closeSidebar() {
-    if (!sidebar) return;
-    sidebar.classList.remove("is-open");
-    if (maskEl) maskEl.hidden = true;
-    document.body.style.overflow = "";
-    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
-  }
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", function () {
-      sidebar.classList.contains("is-open") ? closeSidebar() : openSidebar();
-    });
-  }
-  if (maskEl) maskEl.addEventListener("click", closeSidebar);
-  /* 点击侧边栏链接后收起抽屉 */
-  document.addEventListener("click", function (e) {
-    if (e.target.closest && e.target.closest(".docs-link") && window.innerWidth <= 1024) closeSidebar();
-  });
-
-  /* ---------- 5. 初始化 ---------- */
-  buildSidebar();
-  buildBreadcrumb();
-  onTocScroll();
-
-  var ticking = false;
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      window.requestAnimationFrame(function () {
-        onTocScroll();
-        ticking = false;
-      });
+    if (host) {
+      host.innerHTML = html;
+      var panel = host.closest(".docs-toc");
+      if (panel && !html) panel.style.display = "none";
     }
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* ---------- 渲染上一页 / 下一页 ---------- */
+  function renderPager(activeId) {
+    var host = $("#docs-pager");
+    if (!host) return;
+    var flat = flatten();
+    var idx = -1;
+    flat.forEach(function (item, i) { if (item.page.id === activeId) idx = i; });
+    if (idx === -1) return;
+
+    var prev = idx > 0 ? flat[idx - 1] : null;
+    var next = idx < flat.length - 1 ? flat[idx + 1] : null;
+    var html = "";
+
+    if (prev) {
+      html +=
+        '<a class="pager-link is-prev" href="' + prev.page.href + '">' +
+          '<span class="pager-dir">← 上一篇</span>' +
+          '<span class="pager-title">' + prev.page.title + "</span>" +
+        "</a>";
+    }
+    if (next) {
+      html +=
+        '<a class="pager-link is-next" href="' + next.page.href + '">' +
+          '<span class="pager-dir">下一篇 →</span>' +
+          '<span class="pager-title">' + next.page.title + "</span>" +
+        "</a>";
+    }
+    host.innerHTML = html;
+  }
+
+  /* ---------- 移动端默认折叠侧边栏 ---------- */
+  function autoCollapse() {
+    if (window.innerWidth > 980) return;
+    var sidebar = $("#docs-sidebar");
+    var btn = $("#docs-menu-toggle");
+    if (!sidebar || !btn) return;
+    sidebar.classList.add("is-collapsed");
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "展开目录";
+  }
+
+  /* ---------- 启动 ---------- */
+  function boot() {
+    var pageId = document.body.getAttribute("data-page") || "index";
+    var flat = flatten();
+    var current = null;
+    flat.forEach(function (item) { if (item.page.id === pageId) current = item; });
+
+    var group = current ? current.group : "文档";
+    var title =
+      document.body.getAttribute("data-title") ||
+      (current ? current.page.title : document.title);
+
+    renderSidebar(pageId);
+    renderBreadcrumb(group, title);
+    renderToc();
+    renderPager(pageId);
+    autoCollapse();
+
+    // 若 main.js 已完成首轮初始化（脚本顺序相反时），补做一次目录高亮与代码块增强
+    if (window.AiSearchSite && document.readyState !== "loading") {
+      window.AiSearchSite.initCodeBlocks(document);
+      window.AiSearchSite.initDocTocSpy();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
 })();

@@ -1,161 +1,244 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>概览 — ai-search-mcp 官方文档</title>
-  <meta name="description" content="ai-search-mcp 概览：专为 Agent 打造的上网搜索 MCP 服务器。零配置免费引擎、区域感知自动选引擎、时间过滤、缓存与 research 组合工具。">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8587714324315610" crossorigin="anonymous"></script>
-  <script>
-    (function () {
-      try { document.documentElement.classList.add("js"); } catch (e) {}
-    })();
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>概览 — ai-search-mcp 文档</title>
+<meta name="description" content="ai-search-mcp 概览：项目定位、核心能力、四个 MCP 工具、引擎链工作原理与运行要求。">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/style.css">
+<script>(function(){try{var t=localStorage.getItem("aisearch-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
-<body class="docs-page" data-page="index">
+<body data-page="index" data-title="概览">
 
-  <!-- ======= 顶部导航 ======= -->
-  <header class="site-header" id="site-header">
-    <nav class="nav container" aria-label="主导航">
-      <a href="../index.html" class="brand">
-        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
-          <rect width="32" height="32" rx="7" fill="url(#lg1)"/>
-          <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
-          <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="brand-text">ai-search-<em>mcp</em></span>
-      </a>
-      <button class="nav-toggle docs-nav-toggle" id="docs-nav-toggle" aria-label="打开文档目录" aria-expanded="false">
-        <span></span><span></span><span></span>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <nav class="nav container" aria-label="主导航">
+    <a href="../index.html" class="brand">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <defs><linearGradient id="lgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        <rect width="32" height="32" rx="7" fill="url(#lgd)"/>
+        <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">ai-search-<em>mcp</em></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" class="nav-link">主页</a></li>
+      <li><a href="../index.html#tools" class="nav-link">四大工具</a></li>
+      <li><a href="../index.html#engines" class="nav-link">引擎矩阵</a></li>
+      <li><a href="./index.html" class="nav-link is-active">文档</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html" class="nav-link" data-nav="home">主页</a></li>
-        <li><a href="../index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
-        <li><a href="../index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
-        <li><a href="../index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
-        <li><a href="./index.html" class="nav-link is-active" data-nav="docs">文档</a></li>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-sidebar" id="docs-sidebar"></aside>
+
+  <div class="docs-main">
+    <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
+
+    <h1 class="docs-title">概览</h1>
+    <p class="docs-lede">
+      <strong>ai-search-mcp</strong> 是一个专为 Agent 打造的上网搜索 MCP 服务器，当前版本 <strong>v0.4.1</strong>，MIT 许可，
+      纯 JavaScript（CommonJS）、零构建，运行依赖仅 3 个包。
+    </p>
+
+    <article class="prose">
+
+      <div class="doc-chips">
+        <span class="badge badge-blue">4 个 MCP 工具</span>
+        <span class="badge badge-cyan">9 个搜索引擎</span>
+        <span class="badge badge-green">137 个单元测试</span>
+        <span class="badge badge-purple">Node ≥ 18</span>
+        <span class="badge badge-amber">0 个必需 API Key</span>
+      </div>
+
+      <h2>它解决什么问题</h2>
+      <p>
+        搜索是 Agent 使用频率最高的工具，但现有可选方案都存在明显短板。这个项目要填的是同一个空档：
+        <strong>不用花钱、不用配置、输出就能直接用</strong>。
+      </p>
+
+      <div class="table-wrap">
+        <table class="table" data-stack>
+          <thead>
+            <tr><th>现有方案</th><th>问题</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>官方 fetch MCP</strong></td>
+              <td>只能抓<strong>已知 URL</strong>，不具备搜索发现能力</td>
+            </tr>
+            <tr>
+              <td><strong>Tavily / Brave / Exa 官方 MCP</strong></td>
+              <td>质量高，但<strong>全部需要付费 API Key</strong>，没有免费兜底路径</td>
+            </tr>
+            <tr>
+              <td><strong>社区 DuckDuckGo MCP</strong></td>
+              <td>免费但脆弱：单引擎、无缓存、无重试、输出为原始 HTML</td>
+            </tr>
+            <tr>
+              <td><strong>自建爬虫 / 聚合网关</strong></td>
+              <td>要自己维护反爬对抗、限频、解析规则与合规边界，运维成本高</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>核心能力</h2>
+      <ul>
+        <li><strong>零配置开箱即用</strong> —— <code>npx -y ai-search-mcp</code> 直接运行，不需要任何 API Key。</li>
+        <li><strong>多引擎可插拔</strong> —— 免费引擎 <code>duckduckgo</code> · <code>bing</code> · <code>baidu</code> · <code>sogou</code> · <code>so360</code> · <code>google</code> · <code>yandex</code>，付费引擎 <code>brave</code> · <code>tavily</code>。</li>
+        <li><strong>区域感知自动选引擎</strong> —— <code>SEARCH_ENGINE=auto</code>（默认）时按 <code>SEARCH_REGION</code> 选择引擎链；<code>429</code> / 超时自动故障转移；也支持逗号分隔的自定义链。</li>
+        <li><strong>时效过滤</strong> —— <code>freshness=day|week|month|year</code> 或精确的 <code>timeRange="YYYY-MM-DD..YYYY-MM-DD"</code>，按引擎能力自动映射。</li>
+        <li><strong>结构化输出</strong> —— 返回 <code>{ id, title, url, snippet, domain }</code>；每条结果带稳定 <code>id</code>（URL 的 sha1 前缀），可直接引用与深读。</li>
+        <li><strong>research 组合工具</strong> —— 一次调用完成「搜索 + 并行抓取 Top 页」，产出证据简报，消灭 5~10 次工具往返。</li>
+        <li><strong>内置 TTL 缓存</strong> —— 默认 10 分钟；可用 <code>SEARCH_CACHE_FILE</code> 持久化，进程重启不丢缓存。</li>
+        <li><strong>引擎健康追踪与优雅降级</strong> —— 冷却中的引擎被引擎链跳过，全部失败时给出逐引擎归因诊断。</li>
+        <li><strong>解析规则外置</strong> —— 引擎改版时用本地文件或远程 URL 覆盖解析规则，无需等待新版本发布。</li>
+        <li><strong>礼貌爬虫内置</strong> —— 按引擎限频 + 随机请求间隔，主动避免触发平台风控，不做任何反爬对抗。</li>
       </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-        </button>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
+
+      <h2>四个工具</h2>
+      <div class="table-wrap">
+        <table class="table" data-stack>
+          <thead>
+            <tr><th>工具</th><th>用途</th><th>典型场景</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>search</strong></td>
+              <td>搜索并返回结构化结果</td>
+              <td>Agent 需要「找到相关页面」</td>
+            </tr>
+            <tr>
+              <td><strong>research</strong></td>
+              <td>搜索 + 抓取 Top 页 → 证据简报</td>
+              <td>Agent 需要「有依据地回答一个问题」</td>
+            </tr>
+            <tr>
+              <td><strong>fetch_page</strong></td>
+              <td>任意 URL / 结果 id → 可读 Markdown</td>
+              <td>Agent 需要「读这一页的细节」</td>
+            </tr>
+            <tr>
+              <td><strong>status</strong></td>
+              <td>引擎健康、缓存统计、有效配置（只读）</td>
+              <td>搜索失败时判断「为什么失败」</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </nav>
-  </header>
 
-  <!-- ======= 文档布局 ======= -->
-  <div class="docs-layout">
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="文档目录">
-      <nav class="docs-nav" id="docs-nav" aria-label="章节导航"></nav>
-      <div class="docs-sidebar-footer">
-        <a href="../index.html">← 返回主页</a><span>v0.4.1</span>
+      <div class="callout callout-tip">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="callout-title">为什么内部不调用 LLM</span>
+          MCP 层只负责取回证据（结构化结果 / 页面正文 / 证据简报），总结与推理交给宿主模型。
+          这样服务器保持<strong>零外部依赖、厂商无关</strong>，token 花费也由你完全掌控。
+        </div>
       </div>
-    </aside>
-    <div class="docs-mask" id="docs-mask" hidden></div>
 
-    <main class="docs-content">
-      <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
-      <article class="docs-articles">
+      <h2>一次搜索发生了什么</h2>
+      <ol class="steps">
+        <li>
+          <h3>校验与改写</h3>
+          <p>校验参数（<code>maxResults</code> 1–20、域名列表最多各 5 个等），解析时效窗口。
+          若查询含中文且带「20xx 年」年份词，会移除年份并自动补偿 <code>freshness=year</code>。</p>
+        </li>
+        <li>
+          <h3>解析引擎链</h3>
+          <p>按 <code>SEARCH_ENGINE</code> 与 <code>region</code> 得出有序引擎列表；没有 API Key 的付费引擎被剔除，
+          免费引擎作为兜底候选附加在后面。开启 <code>SEARCH_LANG_ROUTING=1</code> 时中文查询会优先原生中文引擎。</p>
+        </li>
+        <li>
+          <h3>逐个尝试，失败即转移</h3>
+          <p>每个请求前先过限频器与随机延迟；成功即停止，失败则记录健康状态并尝试下一个引擎。
+          处于冷却期的引擎会被直接跳过，不再浪费请求。</p>
+        </li>
+        <li>
+          <h3>去重、打 id、缓存</h3>
+          <p>URL 归一化后去重，为每条结果生成稳定 <code>id</code>，执行客户端侧的域名包含/排除兜底过滤，
+          最后写入 TTL 缓存并返回结构化 JSON。</p>
+        </li>
+      </ol>
 
-        <nav class="page-toc" aria-label="本页目录">
-          <span class="page-toc-label">本页目录</span>
-          <a class="page-toc-link" href="#intro">简介</a>
-          <a class="page-toc-link" href="#features">核心特性</a>
-          <a class="page-toc-link" href="#how">工作原理</a>
-        </nav>
+      <h2>运行要求</h2>
+      <ul class="kv-list">
+        <li><span class="kv-k">Node.js</span><span class="kv-v">≥ 18（使用内置 fetch / test runner）</span></li>
+        <li><span class="kv-k">模块系统</span><span class="kv-v">CommonJS，无构建步骤</span></li>
+        <li><span class="kv-k">运行依赖</span><span class="kv-v">@modelcontextprotocol/sdk、undici、zod（共 3 个）</span></li>
+        <li><span class="kv-k">传输方式</span><span class="kv-v">stdio（JSON-RPC over stdin/stdout）</span></li>
+        <li><span class="kv-k">日志</span><span class="kv-v">输出到 stderr，不污染 MCP 协议流</span></li>
+      </ul>
 
-        <section class="docs-section" id="intro">
-          <h2>概览</h2>
-          <p class="lead">专为 Agent 打造的上网搜索 MCP 服务器：<strong>零配置免费引擎</strong>、区域感知自动选引擎、freshness 时间过滤、内置缓存，以及一次调用完成整轮调研的 <code>research</code> 组合工具。</p>
-          <div class="callout callout-info"><strong>零 API Key。</strong> <code>npx ai-search-mcp</code> 直接跑，默认内置 7 个免费搜索引擎；Brave / Tavily 为可选付费引擎。</div>
+      <div class="code-block" data-lang="bash">
+<pre><code># 直接运行（无需安装）
+npx -y ai-search-mcp
 
-          <h3>为什么做（Why）</h3>
-          <p>搜索是 Agent 最高频的工具，但现有方案都有硬伤：</p>
-          <div class="table-wrap"><table class="table">
-            <thead><tr><th>现有方案</th><th>问题</th></tr></thead>
-            <tbody>
-              <tr><td>官方 <code>fetch</code> MCP</td><td>只能抓<strong>已知 URL</strong>，不会搜索</td></tr>
-              <tr><td>Tavily / Brave / Exa 官方 MCP</td><td>质量高，但<strong>全部要付费 API Key</strong></td></tr>
-              <tr><td>社区 DuckDuckGo MCP</td><td>免费但脆弱，输出非结构化，无缓存 / 重试</td></tr>
-            </tbody>
-          </table></div>
-          <p><strong>ai-search-mcp</strong> 填补了这个空档：零配置就能用（DuckDuckGo / Bing / 百度 / 搜狗 / 360 等），自动按区域选择最合适的引擎并故障转移，支持时效过滤，还能把「搜 → 选 → 抓 → 总结」的整轮调研压成一次 <code>research</code> 调用。</p>
+# 或全局安装
+npm i -g ai-search-mcp
+ai-search-mcp
 
-          <h3>技术栈</h3>
-          <ul class="check-list">
-            <li>零构建纯 JS（CommonJS），Node.js ≥ 18</li>
-            <li>137 个单元测试（Node 内置 test runner）+ 端到端冒烟测试</li>
-            <li>基于 <code>@modelcontextprotocol/sdk</code>，stdio 传输，支持 Docker 容器化</li>
-            <li>MIT 许可证，独立开源项目</li>
-          </ul>
-        </section>
+# 从源码运行
+git clone https://github.com/zhulingyu666/ai-search-mcp.git
+cd ai-search-mcp && npm install && npm start</code></pre>
+      </div>
 
-        <section class="docs-section" id="features">
-          <h2>核心特性</h2>
-          <div class="grid cards-2">
-            <div class="card"><h3>🆓 零配置开箱即用</h3><p><code>npx ai-search-mcp</code> 直接跑，不需要任何 API Key。</p></div>
-            <div class="card"><h3>🔌 多引擎可插拔</h3><p>免费 <code>duckduckgo · bing · baidu · sogou · so360 · google · yandex</code> + 付费 <code>brave · tavily</code>。</p></div>
-            <div class="card"><h3>🌏 区域感知自动选引擎</h3><p>中国区域走 <code>bing → so360 → baidu → sogou</code>，其他区域走 <code>google → bing → duckduckgo → yandex</code>；429 / 超时自动故障转移。</p></div>
-            <div class="card"><h3>🧠 Agent 友好输出</h3><p>结构化 JSON（<code>{ id, title, url, snippet, domain }</code>），不是原始 HTML，每条带稳定 <code>id</code>。</p></div>
-            <div class="card"><h3>🕒 时间过滤</h3><p><code>freshness=day|week|month|year</code> 或 <code>timeRange</code>，按引擎自动映射；中文「20xx年」查询自动改写。</p></div>
-            <div class="card"><h3>🧭 research 组合工具</h3><p>一次调用 = 搜索 + 并行抓取 Top 页 → 证据简报，消灭 5~10 次工具往返。</p></div>
-            <div class="card"><h3>⚡ 内置缓存</h3><p>TTL 默认 10 分钟，减少重复网络请求；可选文件持久化，重启不丢缓存。</p></div>
-            <div class="card"><h3>🛡️ 工程兜底</h3><p>超时、指数退避重试、统一错误码；引擎健康追踪，冷却中的引擎自动跳过，失败带归因诊断。</p></div>
-          </div>
-          <div class="callout callout-warn"><strong>礼貌爬虫，合规优先。</strong> 按引擎限频（默认 8 次/分）+ 随机请求间隔，主动避免触发风控，不做任何反爬对抗；遵循目标站点 robots.txt 与服务条款。</div>
-        </section>
+      <h2>项目状态</h2>
+      <ul class="kv-list">
+        <li><span class="kv-k">当前版本</span><span class="kv-v">0.4.1（2026-08-26）</span></li>
+        <li><span class="kv-k">测试</span><span class="kv-v">137 个单元测试（Node 内置 test runner）+ 端到端冒烟脚本</span></li>
+        <li><span class="kv-k">许可证</span><span class="kv-v">MIT</span></li>
+        <li><span class="kv-k">仓库</span><span class="kv-v"><a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">github.com/zhulingyu666/ai-search-mcp</a></span></li>
+        <li><span class="kv-k">变更记录</span><span class="kv-v"><a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md</a></span></li>
+      </ul>
 
-        <section class="docs-section" id="how">
-          <h2>工作原理</h2>
-          <p>一次 <code>search</code> 调用，请求在引擎链间自动选择与故障转移，经过缓存、限频、解析规则，最终以结构化 JSON 返回给 Agent。</p>
-          <div class="flow flow-vertical">
-            <div class="flow-node"><div class="flow-icon">🤖</div><strong>Agent / LLM</strong><span>调用 MCP 工具</span></div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node"><div class="flow-icon">🖥️</div><strong>ai-search-mcp</strong><span>MCP stdio 服务器</span></div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node"><div class="flow-icon">🔎</div><strong>引擎链 Engine Chain</strong><span>auto 按区域选择 · 429/超时自动转移</span>
-              <div class="flow-chips"><span class="chip">bing</span><span class="chip">so360</span><span class="chip">baidu</span><span class="chip">sogou</span><span class="chip">google</span><span class="chip">duckduckgo</span><span class="chip">yandex</span></div>
-            </div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node"><div class="flow-icon">⚙️</div><strong>缓存 · 限频 · 解析</strong><span>TTL 缓存 · 8 req/min · selectors</span></div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node"><div class="flow-icon">📦</div><strong>结构化 JSON</strong><span>{ id, title, url, snippet, domain }</span></div>
-          </div>
-          <h3>三个关键机制</h3>
-          <div class="grid cards-3">
-            <div class="card"><h3><span class="num-badge">01</span> 查询改写</h3><p>中文查询中的「20xx年」会被移除并自动附加 <code>freshness=year</code> —— 因为 Bing 等引擎对中文分词弱，年份前缀会导致返回「2026年百科/日历」等跑题结果。</p></div>
-            <div class="card"><h3><span class="num-badge">02</span> 优雅降级</h3><p><code>RATE_LIMITED</code> 立即触发冷却（默认 60s），其他失败连续 2 次进入冷却；冷却中的引擎会被引擎链<strong>跳过</strong>。</p></div>
-            <div class="card"><h3><span class="num-badge">03</span> 失败归因</h3><p>全部引擎失败时，错误响应带 <code>engineStatus</code> 快照与逐引擎摘要，区分「全部冷却」（疑似 IP 被 Ban）与普通失败。</p></div>
-          </div>
-          <div class="next-links">
-            <a class="btn btn-primary" href="./quickstart.html">快速开始 →</a>
-            <a class="btn btn-outline" href="./guide.html">使用指南 →</a>
-          </div>
-        </section>
+      <h2>接下来</h2>
+      <ul>
+        <li><a href="./quickstart.html">快速开始</a> —— 三步接入你的 MCP 客户端</li>
+        <li><a href="./guide.html">工具指南</a> —— 四个工具的参数与用法</li>
+        <li><a href="./engines.html">引擎详解</a> —— 9 个引擎的能力差异与选型</li>
+        <li><a href="./config.html">配置指南</a> —— 19 个环境变量</li>
+      </ul>
 
-      </article>
-      <footer class="docs-content-footer">
-        <span>© 2026 ai-search-mcp · MIT License</span>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub ↗</a>
-        <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm ↗</a>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG ↗</a>
-      </footer>
-    </main>
+    </article>
+
+    <nav class="docs-pager" id="docs-pager" aria-label="翻页"></nav>
   </div>
 
-  <button class="back-top" id="back-top" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+  <aside class="docs-toc">
+    <p class="docs-toc-title">本页目录</p>
+    <ul class="docs-toc-list" id="docs-toc-list"></ul>
+  </aside>
+</div>
+</main>
 
-  <script src="../js/main.js"></script>
-  <script src="./nav.js"></script>
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:0;padding-top:0">
+    <span>© 2026 ai-search-mcp · MIT License</span>
+    <span><a href="../index.html">返回首页</a> · <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm</a> · <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<button class="back-top" id="back-top" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+<script src="./nav.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>

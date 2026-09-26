@@ -1,145 +1,161 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>快速开始 — ai-search-mcp 官方文档</title>
-  <meta name="description" content="ai-search-mcp 快速开始：5 分钟接入。npx 零安装、Claude Desktop、Cursor / Cline、Docker、源码运行与验证。">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8587714324315610" crossorigin="anonymous"></script>
-  <script>
-    (function () {
-      try { document.documentElement.classList.add("js"); } catch (e) {}
-    })();
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>快速开始 — ai-search-mcp 文档</title>
+<meta name="description" content="三步把 ai-search-mcp 接入 Claude Desktop / Cursor / Cline / 自研 Agent：安装、配置、验证。含中国区域建议与 Docker 用法。">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/style.css">
+<script>(function(){try{var t=localStorage.getItem("aisearch-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
-<body class="docs-page" data-page="quickstart">
+<body data-page="quickstart" data-title="快速开始">
 
-  <header class="site-header" id="site-header">
-    <nav class="nav container" aria-label="主导航">
-      <a href="../index.html" class="brand">
-        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="7" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="brand-text">ai-search-<em>mcp</em></span>
-      </a>
-      <button class="nav-toggle docs-nav-toggle" id="docs-nav-toggle" aria-label="打开文档目录" aria-expanded="false">
-        <span></span><span></span><span></span>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <nav class="nav container" aria-label="主导航">
+    <a href="../index.html" class="brand">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <defs><linearGradient id="lgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        <rect width="32" height="32" rx="7" fill="url(#lgd)"/>
+        <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">ai-search-<em>mcp</em></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" class="nav-link">主页</a></li>
+      <li><a href="../index.html#tools" class="nav-link">四大工具</a></li>
+      <li><a href="../index.html#engines" class="nav-link">引擎矩阵</a></li>
+      <li><a href="./index.html" class="nav-link is-active">文档</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html" class="nav-link" data-nav="home">主页</a></li>
-        <li><a href="../index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
-        <li><a href="../index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
-        <li><a href="../index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
-        <li><a href="./index.html" class="nav-link is-active" data-nav="docs">文档</a></li>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-sidebar" id="docs-sidebar"></aside>
+
+  <div class="docs-main">
+    <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
+
+    <h1 class="docs-title">快速开始</h1>
+    <p class="docs-lede">
+      三步就能跑起来：确认本机有 Node ≥ 18、把服务器写进客户端的 <code>mcpServers</code>、然后让模型做一次搜索验证。
+      全程不需要 API Key。
+    </p>
+
+    <article class="prose">
+
+      <h2>前置要求</h2>
+      <ul class="kv-list">
+        <li><span class="kv-k">Node.js</span><span class="kv-v">≥ 18（可用 <code>node -v</code> 检查）</span></li>
+        <li><span class="kv-k">网络</span><span class="kv-v">能访问搜索引擎。中国大陆建议设置 <code>SEARCH_REGION=cn-zh</code></span></li>
+        <li><span class="kv-k">客户端</span><span class="kv-v">任何支持 MCP 的宿主：Claude Desktop / Cursor / Cline / VS Code / 自研 Agent</span></li>
       </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-        </button>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
+
+      <h2>第 1 步 · 确认服务器可运行</h2>
+      <p>先用 <code>npx</code> 直接拉起来。它会以 stdio 方式启动并等待 JSON-RPC 输入 —— 打印 <code>ready</code> 一行就说明配置正常（日志走 stderr）。</p>
+
+      <div class="code-block" data-lang="bash">
+<pre><code>npx -y ai-search-mcp
+
+# 期望在 stderr 看到：
+# [ai-search-mcp] [info] ready (version 0.4.1, engine=auto, region=auto, logLevel=info)</code></pre>
       </div>
-    </nav>
-  </header>
 
-  <div class="docs-layout">
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="文档目录">
-      <nav class="docs-nav" id="docs-nav" aria-label="章节导航"></nav>
-      <div class="docs-sidebar-footer">
-        <a href="../index.html">← 返回主页</a><span>v0.4.1</span>
+      <div class="callout">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1" stroke-linecap="round"/></svg>
+        <div>
+          这个进程本身不会退出，它正等待标准输入。按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 结束即可 —— 平时由客户端自动拉起，无需手动运行。
+        </div>
       </div>
-    </aside>
-    <div class="docs-mask" id="docs-mask" hidden></div>
 
-    <main class="docs-content">
-      <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
-      <article class="docs-articles">
+      <h2>第 2 步 · 写入客户端配置</h2>
+      <p>所有主流客户端都接受同一份结构：<code>{ "mcpServers": { ... } }</code>。把下面片段合并进你已有的配置文件（<strong>不要</strong>整体覆盖）。</p>
 
-        <nav class="page-toc" aria-label="本页目录">
-          <span class="page-toc-label">本页目录</span>
-          <a class="page-toc-link" href="#requirements">环境要求</a>
-          <a class="page-toc-link" href="#steps">接入步骤</a>
-          <a class="page-toc-link" href="#clients">客户端配置</a>
-          <a class="page-toc-link" href="#verify">验证</a>
-        </nav>
-
-        <section class="docs-section" id="requirements">
-          <h2>环境要求</h2>
-          <ul class="check-list">
-            <li><strong>Node.js ≥ 18</strong>（零构建纯 JS，CommonJS）</li>
-            <li>支持 MCP 的客户端：Claude Desktop、Cursor / Cline、WorkBuddy、VS Code 等</li>
-            <li>无需任何 API Key，默认零配置即可用</li>
-          </ul>
-        </section>
-
-        <section class="docs-section" id="steps">
-          <h2>接入步骤</h2>
-          <div class="steps">
-            <div class="step"><span class="step-num">1</span><div class="step-body"><h3>打开 MCP 客户端配置</h3><p>Claude Desktop 编辑 <code>claude_desktop_config.json</code>；Cursor / Cline / WorkBuddy 在设置中的 MCP 服务器配置处添加。标准客户端都接受 <code>{"mcpServers": {...}}</code> 结构。</p></div></div>
-            <div class="step"><span class="step-num">2</span><div class="step-body"><h3>粘贴配置片段</h3><p>按下方 <a href="#clients">客户端配置</a> 选择对应片段。中国用户建议加 <code>SEARCH_REGION=cn-zh</code>，自动走国内可直连引擎链（bing → so360 → baidu → sogou），免代理。</p></div></div>
-            <div class="step"><span class="step-num">3</span><div class="step-body"><h3>重启客户端</h3><p>保存配置后重启，让其拉起 MCP 服务器；看到 <code>ai-search-mcp ready</code> 日志即启动成功（日志输出到 stderr，不污染 MCP 协议）。</p></div></div>
-            <div class="step"><span class="step-num">4</span><div class="step-body"><h3>验证搜索</h3><p>对 Agent 说「搜索一下今天的 AI 新闻」或直接调用 <code>search</code> 工具 —— 返回结构化 JSON（<code>{ id, title, url, snippet, domain }</code>），不是原始 HTML。</p></div></div>
-          </div>
-        </section>
-
-        <section class="docs-section" id="clients">
-          <h2>客户端配置</h2>
-          <div class="tabs" data-tabs="qs">
-            <div class="tabs-nav" role="tablist">
-              <button class="tab-btn is-active" role="tab" data-tab="npx">npx 零安装</button>
-              <button class="tab-btn" role="tab" data-tab="claude">Claude Desktop</button>
-              <button class="tab-btn" role="tab" data-tab="cursor">Cursor / Cline</button>
-              <button class="tab-btn" role="tab" data-tab="docker">Docker</button>
-              <button class="tab-btn" role="tab" data-tab="source">源码运行</button>
-            </div>
-            <div class="tab-panel is-active" data-panel="npx">
-              <div class="code-block" data-label="Terminal">
-<pre><code class="lang-bash"># 直接用 npx 运行（无需安装）
-npx -y ai-search-mcp
-
-# 或全局 / 本地安装
-npm i -g ai-search-mcp
-ai-search-mcp</code></pre>
-              </div>
-              <div class="callout callout-info">💡 推荐先这样跑一次确认环境正常，再把下面客户端的配置片段粘进 MCP 配置。</div>
-            </div>
-            <div class="tab-panel" data-panel="claude">
-              <div class="code-block" data-label="claude_desktop_config.json">
-<pre><code class="lang-json">{
-  "mcpServers": {
-    "ai-search-mcp": {
-      "command": "npx",
-      "args": ["-y", "ai-search-mcp"]
-    }
-  }
-}</code></pre>
-              </div>
-              <div class="callout callout-info">💡 中国用户建议加上 <code>env</code>：<code>{ "SEARCH_REGION": "cn-zh" }</code></div>
-            </div>
-            <div class="tab-panel" data-panel="cursor">
-              <div class="code-block" data-label=".mcp.json">
-<pre><code class="lang-json">{
+      <div class="code-block" data-lang="json">
+<pre><code>{
   "mcpServers": {
     "ai-search-mcp": {
       "command": "npx",
       "args": ["-y", "ai-search-mcp"],
-      "env": { "SEARCH_REGION": "cn-zh" }
+      "env": {
+        "SEARCH_REGION": "cn-zh"
+      }
     }
   }
 }</code></pre>
-              </div>
-              <div class="callout callout-info">💡 需要 Brave / Tavily 付费引擎？<code>"SEARCH_ENGINE": "brave,tavily,bing"</code> + 填入 <code>BRAVE_API_KEY</code> / <code>TAVILY_API_KEY</code>，详见<a href="./config.html">配置指南</a>。</div>
-            </div>
-            <div class="tab-panel" data-panel="docker">
-              <div class="code-block" data-label="Terminal — 构建并运行">
-<pre><code class="lang-bash">docker build -t ai-search-mcp:latest .
+      </div>
+
+      <h3>各客户端配置文件位置</h3>
+      <ul class="kv-list">
+        <li><span class="kv-k">Claude Desktop</span><span class="kv-v"><code>claude_desktop_config.json</code>（macOS 在 <code>~/Library/Application Support/Claude/</code>，Windows 在 <code>%APPDATA%\Claude\</code>）</span></li>
+        <li><span class="kv-k">Cursor</span><span class="kv-v">项目内 <code>.cursor/mcp.json</code>，或全局 <code>~/.cursor/mcp.json</code></span></li>
+        <li><span class="kv-k">Cline / VS Code</span><span class="kv-v">客户端的 MCP Servers 面板，或对应扩展的 settings JSON</span></li>
+        <li><span class="kv-k">自研 Agent</span><span class="kv-v">直接用 <code>@modelcontextprotocol/sdk</code> 的 stdio transport 拉起本进程</span></li>
+      </ul>
+
+      <h3>变体：接入付费引擎</h3>
+      <p>想让质量更高的官方 API 优先、免费引擎兜底，就给出显式引擎链。缺少 Key 的引擎会在启动时被跳过并打印警告，不会导致启动失败。</p>
+
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "mcpServers": {
+    "ai-search-mcp": {
+      "command": "npx",
+      "args": ["-y", "ai-search-mcp"],
+      "env": {
+        "SEARCH_ENGINE": "brave,tavily,bing",
+        "BRAVE_API_KEY": "your-brave-key",
+        "TAVILY_API_KEY": "your-tavily-key",
+        "SEARCH_REGION": "cn-zh"
+      }
+    }
+  }
+}</code></pre>
+      </div>
+
+      <h3>变体：从源码运行</h3>
+      <p>本地调试或想改代码时，直接指向 <code>index.js</code> 的绝对路径。Windows 下的路径用正斜杠或双反斜杠均可。</p>
+
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "mcpServers": {
+    "ai-search-mcp": {
+      "command": "node",
+      "args": ["C:/path/to/ai-search-mcp/index.js"],
+      "env": {
+        "SEARCH_REGION": "cn-zh",
+        "SEARCH_LOG_LEVEL": "debug"
+      }
+    }
+  }
+}</code></pre>
+      </div>
+
+      <h3>变体：Docker 运行</h3>
+      <p>镜像基于 <code>node:18-alpine</code>，只装运行时依赖，并以 <code>node index.js</code> 作为入口。stdio 服务无需暴露端口，但<strong>必须带 <code>-i</code></strong> 保持标准输入打开。</p>
+
+      <div class="code-block" data-lang="bash">
+<pre><code># 构建
+docker build -t ai-search-mcp:latest .
+
+# 手动试跑（交互式 stdin/stdout）
 docker run -i --rm --name ai-search-mcp ai-search-mcp:latest</code></pre>
-              </div>
-              <div class="code-block" data-label="Docker — mcpServers 配置">
-<pre><code class="lang-json">{
+      </div>
+
+      <div class="code-block" data-lang="json">
+<pre><code>{
   "mcpServers": {
     "ai-search-mcp": {
       "command": "docker",
@@ -148,49 +164,103 @@ docker run -i --rm --name ai-search-mcp ai-search-mcp:latest</code></pre>
     }
   }
 }</code></pre>
-              </div>
-            </div>
-            <div class="tab-panel" data-panel="source">
-              <div class="code-block" data-label="Terminal — 从源码运行">
-<pre><code class="lang-bash">git clone https://github.com/zhulingyu666/ai-search-mcp.git
-cd ai-search-mcp
-npm install
-npm start</code></pre>
-              </div>
-            </div>
-          </div>
-        </section>
+      </div>
 
-        <section class="docs-section" id="verify">
-          <h2>验证</h2>
-          <div class="code-block" data-label="Terminal — 跑测试与冒烟">
-<pre><code class="lang-bash"># 137 个单元测试（Node 内置 test runner）
-npm test
+      <div class="callout callout-warn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="callout-title">远程部署说明</span>
+          本服务器使用 <strong>stdio</strong> 传输，设计上由客户端在本机拉起。要暴露成远程服务，需要自行加一层 SSE 或 Streamable HTTP transport。
+        </div>
+      </div>
 
-# 端到端冒烟：search + freshness + research（需要网络）
-node scripts/smoke-test.js</code></pre>
-          </div>
-          <div class="next-links">
-            <a class="btn btn-outline" href="./guide.html">下一步：使用指南 →</a>
-          </div>
-        </section>
+      <h2>第 3 步 · 验证</h2>
+      <p>重启客户端，让它调用一次 <code>search</code>。返回同时出现 <code>engine</code> 与非空 <code>results</code> 即接入成功。</p>
 
-      </article>
-      <footer class="docs-content-footer">
-        <span>© 2026 ai-search-mcp · MIT License</span>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub ↗</a>
-        <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm ↗</a>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG ↗</a>
-      </footer>
-    </main>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "query": "Model Context Protocol specification",
+  "maxResults": 5
+}</code></pre>
+      </div>
+
+      <p>如果失败，先调用 <code>status</code>（无参数）看是哪个环节出了问题：</p>
+
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "server": "ai-search-mcp",
+  "uptimeSec": 812,
+  "config": { "engine": "auto", "region": "cn-zh", "ratePerMinute": 8, "cacheTtlMs": 600000 },
+  "cache": { "size": 3, "hits": 0, "misses": 3 },
+  "engines": [
+    { "engine": "bing", "status": "healthy", "lastCode": null, "consecutiveFailures": 0 },
+    { "engine": "so360", "status": "untested", "lastCode": null, "consecutiveFailures": 0 }
+  ]
+}</code></pre>
+      </div>
+
+      <h2>中国区域建议</h2>
+      <p>
+        设置 <code>SEARCH_REGION=cn-zh</code> 后，默认引擎链变为 <code>bing → so360 → baidu → sogou</code>，
+        这四个引擎在大陆网络下均可直连，<strong>不需要代理</strong>。
+      </p>
+      <div class="callout callout-tip">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="callout-title">关于百度与搜狗的现实情况</span>
+          在数据中心 / 机房 IP 下，百度即使带上播种 Cookie 也可能被强制图形验证码，搜狗缺少 JS 生成的 SNUID 会话会被 302 拦回。
+          这两种情况下引擎链会自动转移到 Bing 或 360 搜索，属于预期行为。
+          如果你在<strong>大陆住宅 IP</strong> 且希望中文查询优先走原生中文引擎，可设置 <code>SEARCH_LANG_ROUTING=1</code>。
+        </div>
+      </div>
+
+      <h2>常用起步配置</h2>
+      <div class="code-block" data-lang="bash">
+<pre><code># 中国大陆，免代理，日志更详细，缓存持久化到磁盘
+SEARCH_REGION=cn-zh \
+SEARCH_LOG_LEVEL=info \
+SEARCH_CACHE_FILE=./.cache/search.json \
+npx -y ai-search-mcp
+
+# 墙内访问 DuckDuckGo / Brave / Tavily 时走代理
+SEARCH_ENGINE=duckduckgo \
+SEARCH_HTTP_PROXY=http://127.0.0.1:7890 \
+npx -y ai-search-mcp</code></pre>
+      </div>
+
+      <h2>下一步</h2>
+      <ul>
+        <li><a href="./guide.html">工具指南</a> —— 掌握 <code>search</code> / <code>research</code> / <code>fetch_page</code> / <code>status</code> 的完整用法</li>
+        <li><a href="./config.html">配置指南</a> —— 全部 19 个环境变量</li>
+        <li><a href="./faq.html">常见问题</a> —— 接入报错与排错路径</li>
+      </ul>
+
+    </article>
+
+    <nav class="docs-pager" id="docs-pager" aria-label="翻页"></nav>
   </div>
 
-  <button class="back-top" id="back-top" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+  <aside class="docs-toc">
+    <p class="docs-toc-title">本页目录</p>
+    <ul class="docs-toc-list" id="docs-toc-list"></ul>
+  </aside>
+</div>
+</main>
 
-  <script src="../js/main.js"></script>
-  <script src="./nav.js"></script>
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:0;padding-top:0">
+    <span>© 2026 ai-search-mcp · MIT License</span>
+    <span><a href="../index.html">返回首页</a> · <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm</a> · <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<button class="back-top" id="back-top" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+<script src="./nav.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>

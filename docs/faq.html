@@ -1,99 +1,393 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>常见问题 — ai-search-mcp 官方文档</title>
-  <meta name="description" content="ai-search-mcp 常见问题：API Key、中国大陆直连、RATE_LIMITED 限流、百度/搜狗验证码、解析失效、中文查询改写、合规说明等。">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8587714324315610" crossorigin="anonymous"></script>
-  <script>
-    (function () {
-      try { document.documentElement.classList.add("js"); } catch (e) {}
-    })();
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>常见问题 — ai-search-mcp 文档</title>
+<meta name="description" content="ai-search-mcp 常见问题：免费吗、接入报错、结果跑题、限流与 IP 受限、百度搜狗失败、403 抓取失败、隐私与合规、远程部署。">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/style.css">
+<script>(function(){try{var t=localStorage.getItem("aisearch-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
-<body class="docs-page" data-page="faq">
+<body data-page="faq" data-title="常见问题">
 
-  <header class="site-header" id="site-header">
-    <nav class="nav container" aria-label="主导航">
-      <a href="../index.html" class="brand">
-        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="7" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="brand-text">ai-search-<em>mcp</em></span>
-      </a>
-      <button class="nav-toggle docs-nav-toggle" id="docs-nav-toggle" aria-label="打开文档目录" aria-expanded="false">
-        <span></span><span></span><span></span>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <nav class="nav container" aria-label="主导航">
+    <a href="../index.html" class="brand">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <defs><linearGradient id="lgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        <rect width="32" height="32" rx="7" fill="url(#lgd)"/>
+        <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">ai-search-<em>mcp</em></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" class="nav-link">主页</a></li>
+      <li><a href="../index.html#tools" class="nav-link">四大工具</a></li>
+      <li><a href="../index.html#engines" class="nav-link">引擎矩阵</a></li>
+      <li><a href="./index.html" class="nav-link is-active">文档</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html" class="nav-link" data-nav="home">主页</a></li>
-        <li><a href="../index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
-        <li><a href="../index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
-        <li><a href="../index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
-        <li><a href="./index.html" class="nav-link is-active" data-nav="docs">文档</a></li>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-sidebar" id="docs-sidebar"></aside>
+
+  <div class="docs-main">
+    <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
+
+    <h1 class="docs-title">常见问题</h1>
+    <p class="docs-lede">
+      按「先问明白、再排错」的顺序编排。排查任何搜索失败，第一步都建议先调用一次无参数的 <code>status</code>。
+    </p>
+
+    <article class="prose">
+
+      <h2>关于项目本身</h2>
+
+      <div class="accordion">
+        <details class="acc-item">
+          <summary>真的完全免费吗？有没有隐藏的 Key 要求？</summary>
+          <div class="acc-body">
+            <p>
+              是。默认配置下使用 7 个免费引擎（DuckDuckGo / Bing / 百度 / 搜狗 / 360 / Google / Yandex），
+              <strong>不需要任何 API Key</strong>，<code>npx -y ai-search-mcp</code> 装完就能用。
+            </p>
+            <p>
+              只有当你主动选择 <code>brave</code> 或 <code>tavily</code> 时才需要对应的 Key。
+              如果配了这两个引擎却没给 Key，启动时会打印一条警告并把它们跳过，由免费引擎继续兜底 —— 不会导致启动失败。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>它和 Tavily / Brave 官方 MCP 有什么区别？我该选哪个？</summary>
+          <div class="acc-body">
+            <p>不是替代关系，可以组合使用：</p>
+            <ul>
+              <li><strong>它们</strong>：官方 API，检索质量高、稳定，按量付费。</li>
+              <li><strong>本项目</strong>：免费 HTML 解析为主，覆盖 7 个引擎并自动故障转移，同时<strong>也能接入它们的 API</strong>。</li>
+            </ul>
+            <p>
+              实践建议是把付费引擎放在链首、免费引擎放在后面兜底：
+              <code>SEARCH_ENGINE=brave,tavily,bing</code>。这样额度用尽或对方服务抖动时，仍然能拿到结果。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>为什么要用 research，而不是自己串 search + fetch_page？</summary>
+          <div class="acc-body">
+            <p>三个实际差别：</p>
+            <ul>
+              <li><strong>往返次数</strong>：自己串至少要 2 轮（搜索、再逐页抓取），<code>research</code> 只要 1 次调用。</li>
+              <li><strong>选页质量</strong>：<code>research</code> 按域名多样性轮转选页，避免「前三条全是同一个站」，也避免某个站 403 拖垮整份简报。</li>
+              <li><strong>失败隔离</strong>：多页并行抓取，单页失败只记 <code>{ url, error }</code>，其余页面照常返回。</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>内部会调用 LLM 来总结吗？token 花在哪？</summary>
+          <div class="acc-body">
+            <p>
+              不会。MCP 层只负责取证据（结构化结果、页面正文、证据简报），
+              <strong>总结与推理完全由宿主模型完成</strong>。因此服务器零外部 LLM 依赖、厂商无关，你也能精确控制 token 消耗。
+            </p>
+            <p>
+              想更省 token 就保持 <code>extractMode: "summary"</code>（默认），它返回的是去噪后的正文要点而非整页 Markdown；
+              并用 <code>maxPageLength</code> / <code>FETCH_MAX_LENGTH</code> 限制单页长度。
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <h2>接入与启动</h2>
+
+      <div class="accordion">
+        <details class="acc-item">
+          <summary>命令跑不起来，提示 Node 版本不支持</summary>
+          <div class="acc-body">
+            <p>项目要求 Node.js ≥ 18（依赖内置的 fetch 与 test runner）。用 <code>node -v</code> 确认版本；版本过低时升级 Node，或用 nvm / n 切换。</p>
+            <p>如果是 <code>npx</code> 报错，可以先清理缓存再试：</p>
+            <div class="code-block" data-lang="bash">
+<pre><code>node -v
+npx clear-npx-cache
+npx -y ai-search-mcp</code></pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>客户端里看不到工具，或者配置了不生效</summary>
+          <div class="acc-body">
+            <p>按顺序排查：</p>
+            <ol>
+              <li>改完配置后<strong>必须完全重启客户端</strong>（不是刷新窗口）。</li>
+              <li>确认 JSON 语法正确 —— 多余逗号、中文引号都会让整个配置文件失效。</li>
+              <li>确认是在现有 <code>mcpServers</code> 对象里<strong>新增</strong>一项，而不是覆盖整个文件。</li>
+              <li>先在终端手动执行一次配置里的 <code>command</code> + <code>args</code>，排除路径问题。</li>
+              <li>把日志级别调到 <code>debug</code>，看 stderr 里有没有 <code>ready</code> 那一行。</li>
+            </ol>
+            <p>从源码运行时要写 <code>index.js</code> 的<strong>绝对路径</strong>，Windows 下正斜杠与双反斜杠都可以。</p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>支持远程 / HTTP 部署吗？能不能多进程共享缓存？</summary>
+          <div class="acc-body">
+            <p>
+              当前传输方式是 <strong>stdio</strong>，设计上由客户端在本机拉起进程。要暴露成远程服务，需要自行加一层
+              SSE 或 Streamable HTTP transport。
+            </p>
+            <p>
+              缓存目前有内存与文件两种后端。文件后端（<code>SEARCH_CACHE_FILE</code>）
+              <strong>仅限单进程使用</strong> —— 多进程同时写入会互相覆盖，Redis 后端尚未实现。
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <h2>结果质量</h2>
+
+      <div class="accordion">
+        <details class="acc-item">
+          <summary>中文查询结果跑题，全是百科 / 日历 / 赛事</summary>
+          <div class="acc-body">
+            <p>
+              这通常发生在查询里带「20xx 年」时 —— Bing 等引擎的 CJK 分词较弱，会把年份当成搜索主题。
+            </p>
+            <p>服务器已内置处理：查询同时含中文与「20xx 年」时，自动去掉年份词并补偿 <code>freshness=year</code>。可以通过返回字段确认它是否生效：</p>
+            <div class="code-block" data-lang="json">
+<pre><code>{
+  "queryRewritten": "大模型 最新进展",
+  "queryYear": 2026,
+  "freshnessAutoInferred": true,
+  "freshnessApplied": true
+}</code></pre>
+            </div>
+            <p>
+              如果结果仍不理想，说明问题不是年份而是关键词本身。可以试试：显式传 <code>timeRange</code>、
+              用更具体的名词、或加 <code>includeDomains</code> 限定来源。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>指定了 site: 却还是返回其他站点的结果</summary>
+          <div class="acc-body">
+            <p>
+              域名限定分两层执行。第一层是把 <code>site:</code> / <code>-site:</code> 操作符拼进查询交给引擎；
+              第二层是在结果返回前做<strong>客户端侧兜底过滤</strong>，按域名精确匹配或子域匹配校验。
+            </p>
+            <p>
+              如果第二层起了作用，返回里会有 <code>"filtered": true</code>。
+              如果结果为空，说明该引擎在当前查询下确实没返回匹配域名 —— 换个引擎链（例如显式指定 <code>SEARCH_ENGINE=google,bing</code>）会更有效，
+              因为部分引擎（尤其是 Bing 处理中文查询）并不可靠地执行 <code>site:</code> 操作符。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>明明有结果，为什么 total 比我请求的 maxResults 少？</summary>
+          <div class="acc-body">
+            <p>
+              三个可能原因：引擎实际返回量少于请求量；URL 归一化去重合并了重复项（看 <code>deduped</code> 字段）；
+              或者域名的包含 / 排除过滤剔除了部分结果（看 <code>filtered</code> 字段）。
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <h2>失败与限流</h2>
+
+      <div class="accordion">
+        <details class="acc-item">
+          <summary>报 RATE_LIMITED 怎么办？</summary>
+          <div class="acc-body">
+            <p><code>RATE_LIMITED</code> 表示目标引擎主动限流。有两条应对路径：</p>
+            <ul>
+              <li><strong>交给引擎链</strong>：限流属于可重试错误，链会自动尝试下一个引擎，通常你拿到的是最终成功的结果。若返回里 <code>engineSwitched</code> 为 <code>true</code>，说明已经发生过转移。</li>
+              <li><strong>主动降频</strong>：调低 <code>SEARCH_RATE_PER_MINUTE</code>（默认 8），并拉大 <code>SEARCH_MIN_DELAY_MS</code> / <code>SEARCH_MAX_DELAY_MS</code>。</li>
+            </ul>
+            <p>错误响应里还会给出 <code>suggestedEngine</code> 与 <code>retryAfter</code>，可直接据此决定等待时长。</p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>所有引擎都失败了，是不是我被封了？</summary>
+          <div class="acc-body">
+            <p>先调用 <code>status</code> 看引擎状态：</p>
+            <ul>
+              <li>如果绝大多数是 <code>cooling</code>，并带有明确的 <code>cooldownUntil</code> —— 大概率是网络出口受限或 IP 被临时限制。此时立即重试没有意义，应当等冷却窗口过去，或换网络出口 / 配置代理。</li>
+              <li>如果是 <code>degraded</code> 或混合失败码（验证码、302、解析失败）—— 属于目标站反爬加强，换引擎链更有效。</li>
+              <li>如果 <code>config.engine</code> 显示的是一个拼错的引擎名，那是配置问题，不是网络问题。</li>
+            </ul>
+            <p>
+              错误响应里本身就带 <code>engineStatus</code> 快照与逐引擎归因摘要，可以直接读它判断属于哪一类。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>百度 / 搜狗总是失败，是 bug 吗？</summary>
+          <div class="acc-body">
+            <p>不是 bug，是这两个引擎对网络环境非常敏感：</p>
+            <ul>
+              <li><strong>百度</strong>：数据中心 / 海外 IP 下，即使带了首页播种的 <code>BAIDUID</code> Cookie，仍可能被强制跳到图形验证码（<code>wappass</code>）。</li>
+              <li><strong>搜狗</strong>：依赖 JS 生成的 <code>SNUID</code> 会话，纯 HTTP 客户端拿不到，会被 302 拦回（<code>antispider</code>）。</li>
+            </ul>
+            <p>
+              所以它们被排在 CN 链的靠后位置，失败后会自动转移到 Bing 或 360 搜索。
+              如果你在<strong>大陆住宅 IP</strong> 且两者可达，设置 <code>SEARCH_LANG_ROUTING=1</code> 会把中文查询优先交给原生中文引擎。
+            </p>
+            <p>
+              另外提醒：本项目<strong>不做</strong>验证码绕过、UA 轮换或代理池对抗 —— 这是合规红线。被拦截时的正确做法是降频或换引擎。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>fetch_page 返回 403，或者抓不到正文</summary>
+          <div class="acc-body">
+            <p>常见于百度百科与部分国内门户，它们会拒绝脚本抓取。可以尝试：</p>
+            <ul>
+              <li>换一个来源域名 —— 用 <code>research</code> 时这是自动发生的（域名多样性选页），单个站 403 不会影响其他页。</li>
+              <li>改用 <code>extractMode: "full"</code> 看看是否只是正文抽取失败。</li>
+              <li>确认目标页确实有可读正文（纯 JS 渲染的单页应用通常拿不到内容）。</li>
+            </ul>
+            <p>失败会以结构化错误返回（<code>FETCH_ERROR</code>），在 <code>research</code> 里则体现为该页的 <code>error</code> 字段。</p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>某个引擎突然搜不出东西了，解析规则失效怎么办？</summary>
+          <div class="acc-body">
+            <p>
+              这正是解析规则外置机制要解决的问题 —— 不需要等新版本发布。所有引擎的 SERP 解析规则都在
+              <code>src/selectors/*.json</code>，支持三级覆盖：
+            </p>
+            <ol>
+              <li>内置规则（随包分发）</li>
+              <li>本地文件：<code>SEARCH_SELECTOR_FILE=/path/selectors.json</code></li>
+              <li>远程 URL：<code>SEARCH_SELECTOR_OVERRIDE_URL=&lt;gist&gt;</code>（启动时拉取，优先级最高）</li>
+            </ol>
+            <p>
+              覆盖文件按引擎 key 合并，未提到的引擎保持内置规则。加载失败<strong>永远不会阻塞启动</strong>，
+              只会回退上一级并打一条 warn 日志。字段格式见<a href="./config.html">配置指南</a>。
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <h2>隐私与合规</h2>
+
+      <div class="accordion">
+        <details class="acc-item">
+          <summary>我的查询词会被记录吗？</summary>
+          <div class="acc-body">
+            <p>
+              服务器本身没有遥测，不会把数据发往任何第三方 —— 日志只写到本进程的 stderr，
+              内容由 <code>SEARCH_LOG_LEVEL</code> 控制。
+            </p>
+            <p>
+              如果连本地日志也不想留查询词，设置 <code>SEARCH_LOG_QUERY=0</code>，查询词会在日志中被打码。
+            </p>
+            <p>
+              需要说明的是：查询本身会发送给所选搜索引擎（这是搜索的固有行为），
+              因此上游引擎的隐私政策仍然适用。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>这样抓取搜索引擎会不会违反服务条款？</summary>
+          <div class="acc-body">
+            <p>
+              项目的定位是<strong>礼貌爬虫 + 合规优先</strong>。内置机制包括：按引擎限频（默认 8 次/分）、
+              请求之间插入随机延迟、遵循目标站点的 <code>robots.txt</code>，并且<strong>只返回搜索摘要与链接，不转载全文内容</strong>。
+            </p>
+            <p>
+              明确不做的：验证码绕过、UA 伪造轮换、代理池轮换等反反爬对抗。
+              被 403 或验证码拦截时应降频或换引擎，而不是绕过。
+            </p>
+            <p>
+              本项目是独立开源项目，与 DuckDuckGo、Bing/Microsoft、Google、Yandex、Brave、Tavily、百度、搜狗、360
+              均无关联、背书或赞助关系。百度与搜狗基于公开 HTML 解析，若其页面结构变更可能导致解析失效。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc-item">
+          <summary>缓存会不会返回过期内容？</summary>
+          <div class="acc-body">
+            <p>
+              默认 TTL 是 10 分钟，对搜索场景来说能显著减少重复请求。如果对时效极度敏感，把
+              <code>SEARCH_CACHE_TTL</code> 调小，或设为 <code>0</code> 完全关闭缓存。
+            </p>
+            <p>
+              缓存键包含引擎链、时效参数与域名限定，所以换配置不会误命中旧结果；
+              <code>fetch_page</code> 的缓存键还额外包含 <code>extractMode</code>，<code>summary</code> 与 <code>full</code> 互不污染。
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <h2>还没解决？</h2>
+      <div class="callout callout-tip">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="callout-title">提 issue 时请带上这三样</span>
+          ① <code>status</code> 的完整输出（含 <code>config</code> 与 <code>engines</code>）；
+          ② <code>SEARCH_LOG_LEVEL=debug</code> 下的相关日志片段；
+          ③ 你使用的 Node 版本与操作系统。有这三样，绝大多数问题一眼可定位。
+        </div>
+      </div>
+
+      <ul>
+        <li><a href="https://github.com/zhulingyu666/ai-search-mcp/issues" target="_blank" rel="noopener">提交 Issue</a></li>
+        <li><a href="./guide.html">回到工具指南</a></li>
+        <li><a href="./config.html">回到配置指南</a></li>
       </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-        </button>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </nav>
-  </header>
 
-  <div class="docs-layout">
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="文档目录">
-      <nav class="docs-nav" id="docs-nav" aria-label="章节导航"></nav>
-      <div class="docs-sidebar-footer">
-        <a href="../index.html">← 返回主页</a><span>v0.4.1</span>
-      </div>
-    </aside>
-    <div class="docs-mask" id="docs-mask" hidden></div>
+    </article>
 
-    <main class="docs-content">
-      <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
-      <article class="docs-articles">
-
-        <section class="docs-section" id="faq">
-          <h2>常见问题</h2>
-          <p class="lead">8 个高频问题速览。更多讨论见 <a href="https://github.com/zhulingyu666/ai-search-mcp/issues" target="_blank" rel="noopener">GitHub Issues ↗</a></p>
-
-          <div class="accordion accordion-grid" id="faq-list">
-            <details class="acc-item"><summary>需要付费 API Key 吗？<span class="acc-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><div class="acc-body"><p>不需要。默认内置 7 个免费引擎（Google / Bing / DuckDuckGo / Yandex / 360 / 百度 / 搜狗），零配置开箱即用。Brave / Tavily 是可选的高质量付费引擎，需要时再配 Key。</p></div></details>
-            <details class="acc-item"><summary>在中国大陆能直接用吗？</summary><div class="acc-body"><p>可以。设 <code>SEARCH_REGION=cn-zh</code> 后默认引擎链为 <code>bing → so360 → baidu → sogou</code>，全部国内直连免代理。需要访问 DuckDuckGo / Brave / Tavily 时可用 <code>SEARCH_HTTP_PROXY</code> 走代理。</p></div></details>
-            <details class="acc-item"><summary>为什么返回 <code>RATE_LIMITED</code>？</summary><div class="acc-body"><p>免费引擎会限流，429 以结构化错误返回（带 <code>suggestedEngine</code> / <code>retryAfter</code>）。引擎链会自动故障转移，冷却中的引擎被跳过。可调低 <code>SEARCH_RATE_PER_MINUTE</code>（默认 8 次/分）或增大请求间隔。</p></div></details>
-            <details class="acc-item"><summary>百度/搜狗被验证码或 302 拦住了？</summary><div class="acc-body"><p>数据中心/海外 IP 下，百度会强制图形验证码（wappass），搜狗缺 JS 生成的 SNUID 会被 302 拦回。默认会自动转移到 Bing / 360；在<strong>大陆住宅 IP</strong> 且可达时可设 <code>SEARCH_LANG_ROUTING=1</code> 优先百度/搜狗。</p></div></details>
-            <details class="acc-item"><summary>引擎改版解析失效了怎么办？</summary><div class="acc-body"><p>解析规则外置在 <code>src/selectors/*.json</code>。设 <code>SEARCH_SELECTOR_OVERRIDE_URL=&lt;gist-url&gt;</code> 重启即修复，不用等新版 npm；覆盖加载失败自动回退内置规则，不阻塞启动。详见<a href="./config.html#selectors">配置指南</a>。</p></div></details>
-            <details class="acc-item"><summary>「2026年 大模型」为什么会被改写？</summary><div class="acc-body"><p>Bing 等引擎对中文分词弱，年份会被当主词导致跑题。工具会移除年份前缀并自动附加 <code>freshness=year</code> 补偿，改写通过 <code>queryRewritten</code> / <code>queryYear</code> 透明返回。</p></div></details>
-            <details class="acc-item"><summary>会抓取全文吗？合规吗？</summary><div class="acc-body"><p>只返回搜索摘要与链接，不转载全文。遵循 robots.txt 与服务条款；内置礼貌爬虫限频与随机间隔，不做任何反爬对抗 —— 合规红线。详见<a href="./config.html#compliance">合规说明</a>。</p></div></details>
-            <details class="acc-item"><summary>和 Tavily / Brave 官方 MCP 有何区别？</summary><div class="acc-body"><p>它们质量高但全要付费 Key；本项目把它们作为<strong>可插拔引擎</strong>纳入统一接口（<code>SEARCH_ENGINE=brave,tavily</code>），统一享受缓存、限频、故障转移、时间过滤与 <code>research</code> 组合工具。</p></div></details>
-          </div>
-
-          <div class="next-links">
-            <a class="btn btn-outline" href="https://github.com/zhulingyu666/ai-search-mcp/issues" target="_blank" rel="noopener">没找到答案？提 Issue ↗</a>
-          </div>
-        </section>
-
-      </article>
-      <footer class="docs-content-footer">
-        <span>© 2026 ai-search-mcp · MIT License</span>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub ↗</a>
-        <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm ↗</a>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG ↗</a>
-      </footer>
-    </main>
+    <nav class="docs-pager" id="docs-pager" aria-label="翻页"></nav>
   </div>
 
-  <button class="back-top" id="back-top" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+  <aside class="docs-toc">
+    <p class="docs-toc-title">本页目录</p>
+    <ul class="docs-toc-list" id="docs-toc-list"></ul>
+  </aside>
+</div>
+</main>
 
-  <script src="../js/main.js"></script>
-  <script src="./nav.js"></script>
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:0;padding-top:0">
+    <span>© 2026 ai-search-mcp · MIT License</span>
+    <span><a href="../index.html">返回首页</a> · <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm</a> · <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<button class="back-top" id="back-top" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+<script src="./nav.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>

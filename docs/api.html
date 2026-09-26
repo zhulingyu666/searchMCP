@@ -1,180 +1,365 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API 参考 — ai-search-mcp 官方文档</title>
-  <meta name="description" content="ai-search-mcp API 参考：工具参数表、错误码、引擎对比。面向 Agent 调用方与开发者。">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8587714324315610" crossorigin="anonymous"></script>
-  <script>
-    (function () {
-      try { document.documentElement.classList.add("js"); } catch (e) {}
-    })();
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>API 参考 — ai-search-mcp 文档</title>
+<meta name="description" content="ai-search-mcp 的 MCP 工具签名：search / research / fetch_page / status 的参数、返回值、值域约束与 7 个稳定错误码。">
+<meta name="theme-color" content="#060912">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563EB'/%3E%3Cpath d='M13 8l6 8-6 8' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/style.css">
+<script>(function(){try{var t=localStorage.getItem("aisearch-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
-<body class="docs-page" data-page="api">
+<body data-page="api" data-title="API 参考">
 
-  <header class="site-header" id="site-header">
-    <nav class="nav container" aria-label="主导航">
-      <a href="../index.html" class="brand">
-        <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="7" fill="url(#lg1)"/><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="brand-text">ai-search-<em>mcp</em></span>
-      </a>
-      <button class="nav-toggle docs-nav-toggle" id="docs-nav-toggle" aria-label="打开文档目录" aria-expanded="false">
-        <span></span><span></span><span></span>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <nav class="nav container" aria-label="主导航">
+    <a href="../index.html" class="brand">
+      <svg class="brand-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+        <defs><linearGradient id="lgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        <rect width="32" height="32" rx="7" fill="url(#lgd)"/>
+        <path d="M13 8l6 8-6 8" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">ai-search-<em>mcp</em></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" class="nav-link">主页</a></li>
+      <li><a href="../index.html#tools" class="nav-link">四大工具</a></li>
+      <li><a href="../index.html#engines" class="nav-link">引擎矩阵</a></li>
+      <li><a href="./index.html" class="nav-link is-active">文档</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
       </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html" class="nav-link" data-nav="home">主页</a></li>
-        <li><a href="../index.html#features" class="nav-link" data-nav="features">为什么选</a></li>
-        <li><a href="../index.html#how" class="nav-link" data-nav="how">工作原理</a></li>
-        <li><a href="../index.html#engines" class="nav-link" data-nav="engines">搜索引擎</a></li>
-        <li><a href="./index.html" class="nav-link is-active" data-nav="docs">文档</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-        </button>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-sidebar" id="docs-sidebar"></aside>
+
+  <div class="docs-main">
+    <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
+
+    <h1 class="docs-title">API 参考</h1>
+    <p class="docs-lede">
+      服务器通过 stdio 暴露 4 个 MCP 工具。所有返回值都是 JSON 文本，所有失败都是带稳定 <code>code</code> 的结构化错误。
+      当前服务器版本 <strong>0.4.1</strong>。
+    </p>
+
+    <article class="prose">
+
+      <h2>工具一览</h2>
+      <div class="table-wrap">
+        <table class="table" data-stack>
+          <thead><tr><th>工具名</th><th>必填参数</th><th>是否联网</th><th>返回</th></tr></thead>
+          <tbody>
+            <tr><td><code>search</code></td><td><code>query</code></td><td>是</td><td>搜索结果 JSON</td></tr>
+            <tr><td><code>research</code></td><td><code>query</code></td><td>是</td><td>证据简报 JSON</td></tr>
+            <tr><td><code>fetch_page</code></td><td><code>url</code> 或 <code>id</code></td><td>是</td><td>页面内容 JSON</td></tr>
+            <tr><td><code>status</code></td><td>无</td><td>否</td><td>诊断 JSON</td></tr>
+          </tbody>
+        </table>
       </div>
-    </nav>
-  </header>
 
-  <div class="docs-layout">
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="文档目录">
-      <nav class="docs-nav" id="docs-nav" aria-label="章节导航"></nav>
-      <div class="docs-sidebar-footer">
-        <a href="../index.html">← 返回主页</a><span>v0.4.1</span>
-      </div>
-    </aside>
-    <div class="docs-mask" id="docs-mask" hidden></div>
-
-    <main class="docs-content">
-      <nav class="docs-breadcrumb" id="docs-breadcrumb" aria-label="面包屑"></nav>
-      <article class="docs-articles">
-
-        <nav class="page-toc" aria-label="本页目录">
-          <span class="page-toc-label">本页目录</span>
-          <a class="page-toc-link" href="#tools">工具参数</a>
-          <a class="page-toc-link" href="#errors">错误码</a>
-          <a class="page-toc-link" href="#engines">引擎对比</a>
-        </nav>
-
-        <section class="docs-section" id="tools">
-          <h2>工具参数</h2>
-          <p class="lead">四个 MCP 工具的完整参数契约（调用示例见<a href="./guide.html">使用指南</a>）。</p>
-
-          <h3>search</h3>
-          <div class="table-wrap"><table class="table">
-            <thead><tr><th>参数</th><th>类型</th><th>默认</th><th>说明</th></tr></thead>
-            <tbody>
-              <tr><td><code>query</code></td><td>string</td><td class="muted">—</td><td>搜索关键词（必填）</td></tr>
-              <tr><td><code>maxResults</code></td><td>number</td><td>10</td><td>返回条数（1–20）</td></tr>
-              <tr><td><code>site</code></td><td>string</td><td class="muted">—</td><td>限定单个域名（<code>includeDomains</code> 兼容别名）</td></tr>
-              <tr><td><code>includeDomains</code></td><td>string[]</td><td class="muted">—</td><td>只返回这些域名（结果侧兜底过滤）</td></tr>
-              <tr><td><code>excludeDomains</code></td><td>string[]</td><td class="muted">—</td><td>排除这些域名</td></tr>
-              <tr><td><code>region</code></td><td>string</td><td class="muted">—</td><td>区域提示（DDG <code>kl</code> / Bing <code>setlang</code> / Brave <code>country</code>）；参与引擎自动选择</td></tr>
-              <tr><td><code>freshness</code></td><td>string</td><td class="muted">—</td><td><code>day</code> | <code>week</code> | <code>month</code> | <code>year</code></td></tr>
-              <tr><td><code>timeRange</code></td><td>string</td><td class="muted">—</td><td>精确时间窗 <code>"YYYY-MM-DD..YYYY-MM-DD"</code>（优先级高于 <code>freshness</code>）</td></tr>
-            </tbody>
-          </table></div>
-
-          <h3>research</h3>
-          <div class="table-wrap"><table class="table">
-            <thead><tr><th>参数</th><th>类型</th><th>默认</th><th>说明</th></tr></thead>
-            <tbody>
-              <tr><td><code>query</code></td><td>string</td><td class="muted">—</td><td>调研主题（必填）</td></tr>
-              <tr><td><code>maxResults</code></td><td>number</td><td>10</td><td>搜索结果条数（1–20）</td></tr>
-              <tr><td><code>fetchTopN</code></td><td>number</td><td>3</td><td>抓取 Top 页数量（按域名多样性选取）</td></tr>
-              <tr><td><code>extractMode</code></td><td>string</td><td><code>summary</code></td><td><code>summary</code>（去噪要点，省 token）| <code>full</code>（整页 Markdown）</td></tr>
-              <tr><td><code>freshness</code> / <code>timeRange</code></td><td>string</td><td class="muted">—</td><td>同 <code>search</code> 的时间过滤</td></tr>
-            </tbody>
-          </table></div>
-
-          <h3>fetch_page</h3>
-          <div class="table-wrap"><table class="table">
-            <thead><tr><th>参数</th><th>类型</th><th>默认</th><th>说明</th></tr></thead>
-            <tbody>
-              <tr><td><code>url</code> 或 <code>id</code></td><td>string</td><td class="muted">—</td><td>目标 URL，或搜索结果返回的稳定 <code>id</code>（二选一）</td></tr>
-              <tr><td><code>extractMode</code></td><td>string</td><td><code>summary</code></td><td><code>summary</code>（返回 <code>mainText</code>）| <code>full</code>（返回整页 <code>markdown</code>）</td></tr>
-              <tr><td><code>maxLength</code></td><td>number</td><td>8000</td><td>返回内容长度上限（字符）</td></tr>
-            </tbody>
-          </table></div>
-
-          <h3>status</h3>
-          <p>只读工具，无必填参数。返回引擎健康状态、冷却截止、缓存命中统计与有效配置。</p>
-        </section>
-
-        <section class="docs-section" id="errors">
-          <h2>错误码</h2>
-          <p class="lead">统一的错误模型：每个失败都以 <code>McpSearchError</code> 返回，带稳定的机器可读 <code>code</code>，Agent 可据此分支处理。</p>
-          <div class="table-wrap"><table class="table">
-            <thead><tr><th>错误码</th><th>含义</th><th>处理建议</th></tr></thead>
-            <tbody>
-              <tr><td><code>INVALID_ARGUMENTS</code></td><td>参数不合法（query 为空、maxResults 超界等）</td><td>修正参数后重试</td></tr>
-              <tr><td><code>ENGINE_NOT_FOUND</code></td><td><code>SEARCH_ENGINE</code> 指定的引擎不存在</td><td>检查引擎名拼写，用 <code>status</code> 查看</td></tr>
-              <tr><td><code>ENGINE_ERROR</code></td><td>引擎返回无法解析 / 异常的内容</td><td>切换引擎或稍后重试；可能站点改版，见<a href="./config.html#selectors">解析规则覆盖</a></td></tr>
-              <tr><td><code>RATE_LIMITED</code></td><td>引擎限流（HTTP 429）</td><td>响应带 <code>suggestedEngine</code> / <code>retryAfter</code>；引擎链自动故障转移</td></tr>
-              <tr><td><code>TIMEOUT</code></td><td>单次请求超时（默认 10s）</td><td>调大 <code>SEARCH_TIMEOUT_MS</code>，或检查网络 / 代理</td></tr>
-              <tr><td><code>NETWORK_ERROR</code></td><td>网络层失败（DNS / 连接 / TLS）</td><td>检查网络连通性与代理配置</td></tr>
-              <tr><td><code>FETCH_ERROR</code></td><td><code>fetch_page</code> 抓取失败（403 / 反爬 / 结构异常）</td><td>换 URL 或标记该页失败继续</td></tr>
-            </tbody>
-          </table></div>
-          <div class="code-block" data-label="结构化错误示例">
-<pre><code class="lang-json">{
-  "code": "RATE_LIMITED",
-  "message": "bing: rate limited, retry after 60s",
-  "suggestedEngine": "so360",
-  "retryAfter": 60,
-  "engineStatus": { "bing": "cooling", "so360": "healthy" }
+      <h2>search</h2>
+      <div class="code-block" data-lang="json">
+<pre><code>// 输入 schema
+{
+  "query":          string,              // 必填，1..∞
+  "maxResults":     number  = 10,        // 1..20
+  "site":           string,              // ≤ 100 字符，单域名
+  "includeDomains": string[],            // 最多 5 项，每项 ≤ 100 字符
+  "excludeDomains": string[],            // 最多 5 项，每项 ≤ 100 字符
+  "region":         string,              // ≤ 10 字符，如 "cn-zh"
+  "freshness":      "day" | "week" | "month" | "year",
+  "timeRange":      string               // "YYYY-MM-DD..YYYY-MM-DD"，≤ 40 字符
 }</code></pre>
-          </div>
-          <div class="callout callout-warn"><strong>全部引擎失败的归因：</strong>错误响应带 <code>engineStatus</code> 快照 + 逐引擎失败摘要，并区分「全部冷却」（疑似 IP 被临时 Ban）与普通失败，附可行动建议。</div>
-        </section>
+      </div>
 
-        <section class="docs-section" id="engines">
-          <h2>引擎对比</h2>
-          <p class="lead">7 个免费引擎 + 2 个付费官方 API。免费引擎开箱即用，付费引擎质量更高。支持逗号分隔引擎链，任一失败自动转移。</p>
-          <div class="table-wrap"><table class="table table-engines">
-            <thead><tr><th>引擎</th><th>免费</th><th>API Key</th><th>时间过滤</th><th>说明</th></tr></thead>
-            <tbody>
-              <tr><td><span class="engine-name">google</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td class="muted">✕</td><td><strong>海外专用</strong>（墙内不可达）；索引质量全球最佳，反爬严，需海外 IP + Cookie 会话</td></tr>
-              <tr><td><span class="engine-name">bing</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td><span class="tag tag-yes">✓ qft</span></td><td>全球通用；中国区域默认，中英文覆盖好，国内免代理直连</td></tr>
-              <tr><td><span class="engine-name">duckduckgo</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td><span class="tag tag-yes">✓ df</span></td><td>全球备选；中国大陆直连可能超时（需代理）</td></tr>
-              <tr><td><span class="engine-name">yandex</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td class="muted">✕</td><td><strong>海外专用</strong>；俄语 / CIS 内容强，部分网络可达性好</td></tr>
-              <tr><td><span class="engine-name">so360 <span class="alias">/ 360</span></span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td class="muted">✕</td><td>360 搜索；<strong>数据中心 / 国内 IP 均可直连</strong>，反爬相对宽松，中文原生引擎</td></tr>
-              <tr><td><span class="engine-name">baidu</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td class="muted">✕</td><td>仅限国内；中文索引强，但反爬严（数据中心 IP 下仍触发图形验证码）</td></tr>
-              <tr><td><span class="engine-name">sogou</span></td><td><span class="tag tag-ok">免费</span></td><td class="muted">—</td><td class="muted">✕</td><td>仅限国内；微信内容覆盖好，但缺 JS 生成的 SNUID 会话会被 302 拦回</td></tr>
-              <tr><td><span class="engine-name">brave</span></td><td><span class="tag tag-no">付费</span></td><td><span class="tag tag-key">需要</span></td><td><span class="tag tag-yes">✓ freshness</span></td><td>官方 API，质量高，有免费额度</td></tr>
-              <tr><td><span class="engine-name">tavily</span></td><td><span class="tag tag-no">付费</span></td><td><span class="tag tag-key">需要</span></td><td><span class="tag tag-yes">✓ time_range</span></td><td>专为 LLM / RAG 检索设计</td></tr>
-            </tbody>
-          </table></div>
-          <div class="next-links">
-            <a class="btn btn-outline" href="./config.html">如何配置 →</a>
-          </div>
-        </section>
+      <p>返回：</p>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "query": string,
+  "queryRewritten": string,        // 仅当查询被改写时出现
+  "queryYear": number,             // 仅当识别到「20xx 年」时出现
+  "engine": string,
+  "engineSwitched": boolean,
+  "cached": boolean,
+  "total": number,
+  "deduped": number,
+  "filtered": boolean,             // 是否应用了客户端侧域名兜底过滤
+  "freshnessApplied": boolean,
+  "freshnessAutoInferred": boolean,
+  "timeRange": string,             // 仅当 freshnessApplied 为 true
+  "results": [
+    { "id": string, "title": string, "url": string, "snippet": string, "domain": string }
+  ]
+}</code></pre>
+      </div>
 
-      </article>
-      <footer class="docs-content-footer">
-        <span>© 2026 ai-search-mcp · MIT License</span>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub ↗</a>
-        <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm ↗</a>
-        <a href="https://github.com/zhulingyu666/ai-search-mcp/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG ↗</a>
-      </footer>
-    </main>
+      <h2>research</h2>
+      <p>继承 <code>search</code> 的全部参数，另加三个：</p>
+      <div class="code-block" data-lang="json">
+<pre><code>// 追加参数
+{
+  "fetchTopN":     number = 2,      // 0..5，0 = 只返回概览不抓页
+  "extractMode":   "summary" | "full",   // 默认 "summary"
+  "maxPageLength": number           // 500..100000，默认取 FETCH_MAX_LENGTH
+}</code></pre>
+      </div>
+
+      <p>返回：</p>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "query": string,
+  "engine": string,
+  "engineSwitched": boolean,
+  "cached": boolean,
+  "freshnessApplied": boolean,
+  "timeRange": string,          // 可选
+  "overview": {
+    "total": number,
+    "deduped": number,
+    "results": [ { id, title, url, snippet, domain } ]
+  },
+  "pages": [
+    {
+      "id": string,
+      "url": string,
+      "rank": number,
+      "title": string,
+      "description": string,
+      "headings": [ { "level": number, "text": string } ],
+      "content": string,
+      "length": number,
+      "truncated": boolean
+    }
+  ],
+  "note": "Evidence brief ready. Summarize based on the page contents and cite source URLs."
+}</code></pre>
+      </div>
+
+      <div class="callout">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1" stroke-linecap="round"/></svg>
+        <div>
+          <span class="callout-title">pages 数组里的两种形状</span>
+          成功项是完整的页面对象；失败项则是
+          <code>{ "id", "url", "rank", "error" }</code> —— 消费方必须能处理这种稀疏形状，不能假设每一项都有 <code>content</code>。
+        </div>
+      </div>
+
+      <h2>fetch_page</h2>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "url":         string,                    // 与 id 二选一
+  "id":          string,                    // 与 url 二选一
+  "extractMode": "summary" | "full",        // 默认 "summary"
+  "maxLength":   number = 8000              // 默认取 FETCH_MAX_LENGTH
+}</code></pre>
+      </div>
+
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "url": string,
+  "title": string,
+  "description": string,
+  "headings": [ { "level": number, "text": string } ],
+  "mainText": string,       // extractMode = summary 时填充
+  "markdown": string,       // extractMode = full 时填充
+  "length": number,
+  "truncated": boolean,
+  "cached": boolean
+}</code></pre>
+      </div>
+
+      <h2>status</h2>
+      <p>无参数。返回服务器运行状态、有效配置、缓存统计与逐引擎健康快照。</p>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "server": "ai-search-mcp",
+  "uptimeSec": number,
+  "config": {
+    "engine": string,          // "auto" 或显式链
+    "region": string,          // 未设置时为 "auto"
+    "ratePerMinute": number,
+    "cacheTtlMs": number,
+    "langRouting": boolean,
+    "selectorOverride": boolean
+  },
+  "cache": { "size": number, "hits": number, "misses": number },
+  "engines": [
+    {
+      "engine": string,
+      "status": "untested" | "healthy" | "degraded" | "cooling",
+      "lastCode": string | null,
+      "consecutiveFailures": number,
+      "lastOkAt": string | null,
+      "lastFailAt": string | null,
+      "cooldownUntil": string | null
+    }
+  ]
+}</code></pre>
+      </div>
+
+      <h2>错误码</h2>
+      <p>所有面向模型的失败都是 <code>McpSearchError</code>，带一个稳定的机器可读 <code>code</code>，便于 Agent 分支处理。</p>
+
+      <div class="err-grid">
+        <div class="err-card">
+          <code>INVALID_ARGUMENTS</code>
+          <p>参数不合法。例如 <code>maxResults</code> 超出 1–20，或 <code>timeRange</code> 不符合 <code>YYYY-MM-DD..YYYY-MM-DD</code> 格式。</p>
+        </div>
+        <div class="err-card">
+          <code>ENGINE_NOT_FOUND</code>
+          <p>引擎名无法识别，或没有任何可用引擎（<code>SEARCH_ENGINE</code> 全部无效）。</p>
+        </div>
+        <div class="err-card">
+          <code>ENGINE_ERROR</code>
+          <p>引擎返回了无法解析的内容、被反爬拦截，或<strong>全部引擎都失败</strong>。带 <code>engineStatus</code> 快照。</p>
+        </div>
+        <div class="err-card">
+          <code>RATE_LIMITED</code>
+          <p>被目标引擎限流。附带 <code>suggestedEngine</code> 与 <code>retryAfter</code> 建议；引擎链会自动转移。</p>
+        </div>
+        <div class="err-card">
+          <code>TIMEOUT</code>
+          <p>请求超过 <code>SEARCH_TIMEOUT_MS</code>（默认 10 秒）。属于可重试错误。</p>
+        </div>
+        <div class="err-card">
+          <code>NETWORK_ERROR</code>
+          <p>网络层失败，例如 DNS 解析失败、连接被拒绝、代理不可用。</p>
+        </div>
+        <div class="err-card">
+          <code>FETCH_ERROR</code>
+          <p>抓取页面失败，例如目标站返回 403、页面结构无法抽取，或响应体过大。</p>
+        </div>
+      </div>
+
+      <p>
+        <code>RATE_LIMITED</code>、<code>TIMEOUT</code>、<code>NETWORK_ERROR</code>、<code>ENGINE_ERROR</code>
+        属于<strong>可重试</strong>错误：引擎链会在这些情况下继续尝试下一个引擎。
+        其余错误（如参数非法）会立即终止本次调用，不做无谓的引擎切换。
+      </p>
+
+      <h2>错误响应示例</h2>
+
+      <h3>限流</h3>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "error": "RATE_LIMITED",
+  "message": "bing rate limited",
+  "suggestedEngine": "wait a few seconds, or switch engine (SEARCH_ENGINE=bing|baidu|sogou for CN users)",
+  "retryAfter": 5
+}</code></pre>
+      </div>
+
+      <h3>全部引擎失败</h3>
+      <p>
+        当所有引擎都失败时，错误里会带上一份引擎状态快照，消息中也包含逐引擎归因摘要，
+        并区分「全部处于冷却」（疑似网络受限 / IP 被临时限制）与普通失败：
+      </p>
+      <div class="code-block" data-lang="json">
+<pre><code>{
+  "error": "ENGINE_ERROR",
+  "message": "全部引擎失败：bing=RATE_LIMITED (冷却至 13:45), baidu=验证码拦截。所有引擎均处于冷却/失败状态——可能是网络受限或 IP 被临时限制。建议等待片刻重试、配置 SEARCH_HTTP_PROXY，或设 SEARCH_ENGINE 指定可用引擎。",
+  "engineStatus": [
+    {
+      "engine": "bing",
+      "status": "cooling",
+      "lastCode": "RATE_LIMITED",
+      "consecutiveFailures": 2,
+      "cooldownUntil": "2026-08-26T05:45:00.000Z"
+    },
+    {
+      "engine": "baidu",
+      "status": "degraded",
+      "lastCode": "ENGINE_ERROR",
+      "consecutiveFailures": 1,
+      "cooldownUntil": null
+    }
+  ]
+}</code></pre>
+      </div>
+
+      <div class="callout callout-tip">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <span class="callout-title">推荐的重试策略</span>
+          遇到 <code>RATE_LIMITED</code>：等待 <code>retryAfter</code> 秒后重试，或先调 <code>status</code> 换一个健康引擎。
+          遇到「全部引擎冷却」：直接重试通常无效，应当等待冷却窗口结束或调整网络出口。
+        </div>
+      </div>
+
+      <h2>值域约束汇总</h2>
+      <div class="table-wrap">
+        <table class="table table-params" data-stack>
+          <thead><tr><th>字段</th><th>约束</th><th>越界行为</th></tr></thead>
+          <tbody>
+            <tr><td>query</td><td>非空字符串</td><td><code>INVALID_ARGUMENTS</code></td></tr>
+            <tr><td>maxResults</td><td>整数 1–20</td><td>回落到 <code>SEARCH_MAX_RESULTS</code></td></tr>
+            <tr><td>site</td><td>≤ 100 字符</td><td><code>INVALID_ARGUMENTS</code></td></tr>
+            <tr><td>includeDomains</td><td>数组，最多 5 项</td><td>超出部分被丢弃</td></tr>
+            <tr><td>excludeDomains</td><td>数组，最多 5 项</td><td>超出部分被丢弃</td></tr>
+            <tr><td>region</td><td>≤ 10 字符</td><td><code>INVALID_ARGUMENTS</code></td></tr>
+            <tr><td>freshness</td><td><code>day</code> / <code>week</code> / <code>month</code> / <code>year</code></td><td><code>INVALID_ARGUMENTS</code></td></tr>
+            <tr><td>timeRange</td><td><code>YYYY-MM-DD..YYYY-MM-DD</code>，起 ≤ 止</td><td><code>INVALID_ARGUMENTS</code></td></tr>
+            <tr><td>fetchTopN</td><td>整数 0–5</td><td>回落到 2</td></tr>
+            <tr><td>extractMode</td><td><code>summary</code> / <code>full</code></td><td>回落到 <code>summary</code></td></tr>
+            <tr><td>maxPageLength</td><td>整数 500–100000</td><td>回落到 <code>FETCH_MAX_LENGTH</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>缓存键构成</h2>
+      <p>理解缓存键有助于解释「为什么改了配置还是拿到旧结果」。</p>
+      <ul class="kv-list">
+        <li><span class="kv-k">search</span><span class="kv-v">查询（含域名操作符）+ maxResults + region + site + includeDomains + excludeDomains + freshness + timeRange + <strong>引擎链</strong></span></li>
+        <li><span class="kv-k">fetch_page</span><span class="kv-v">URL + <code>extractMode</code></span></li>
+        <li><span class="kv-k">research</span><span class="kv-v">独立的 <code>research:</code> 前缀键，包含查询、域名限定、时效与抓取参数</span></li>
+      </ul>
+      <p>因此更换 <code>SEARCH_ENGINE</code> 或切换 <code>extractMode</code> 都不会命中旧缓存。</p>
+
+      <h2>版本信息</h2>
+      <ul class="kv-list">
+        <li><span class="kv-k">server name</span><span class="kv-v"><code>ai-search-mcp</code></span></li>
+        <li><span class="kv-k">server version</span><span class="kv-v"><code>0.4.1</code></span></li>
+        <li><span class="kv-k">capabilities</span><span class="kv-v"><code>tools.listChanged = false</code></span></li>
+      </ul>
+
+    </article>
+
+    <nav class="docs-pager" id="docs-pager" aria-label="翻页"></nav>
   </div>
 
-  <button class="back-top" id="back-top" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+  <aside class="docs-toc">
+    <p class="docs-toc-title">本页目录</p>
+    <ul class="docs-toc-list" id="docs-toc-list"></ul>
+  </aside>
+</div>
+</main>
 
-  <script src="../js/main.js"></script>
-  <script src="./nav.js"></script>
+<footer class="site-footer">
+  <div class="container footer-bottom" style="border-top:0;padding-top:0">
+    <span>© 2026 ai-search-mcp · MIT License</span>
+    <span><a href="../index.html">返回首页</a> · <a href="https://www.npmjs.com/package/ai-search-mcp" target="_blank" rel="noopener">npm</a> · <a href="https://github.com/zhulingyu666/ai-search-mcp" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<button class="back-top" id="back-top" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+<script src="./nav.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>

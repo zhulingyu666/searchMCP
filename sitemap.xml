@@ -10,55 +10,63 @@
   <!-- 主页 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- 官方文档：概览 -->
+  <!-- 文档：概览 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/index.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 官方文档：快速开始 -->
+  <!-- 文档：快速开始 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/quickstart.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
 
-  <!-- 官方文档：使用指南 -->
+  <!-- 文档：工具指南 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/guide.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 官方文档：API 参考 -->
+  <!-- 文档：引擎详解 -->
+  <url>
+    <loc>https://zhulingyu666.github.io/searchMCP/docs/engines.html</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 文档：API 参考 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/api.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- 官方文档：配置指南 -->
+  <!-- 文档：配置指南 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/config.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- 官方文档：常见问题 -->
+  <!-- 文档：常见问题 -->
   <url>
     <loc>https://zhulingyu666.github.io/searchMCP/docs/faq.html</loc>
-    <lastmod>2026-08-26</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
